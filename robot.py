@@ -26,7 +26,6 @@ class robot:
 
 	# The robot first decides on an action to take, then executes the action
 	def takeAction(self, boardState):
-		global theFunction
 		action = self.decideAction(boardState)
 		print("action taken by %s is %s" % (self.name, action))
 		theAction = boardState.MOVEFUNCTIONS[action]  # maps string to function
