@@ -91,7 +91,6 @@ class Robot:
 		
 		action(self, board)
 
-
 	def turnLeft(self, board):
 		'''
 		Rotate the robot 90 degrees to the left.
