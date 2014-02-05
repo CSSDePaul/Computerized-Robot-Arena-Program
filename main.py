@@ -3,8 +3,8 @@ from graphics import Graphics
 
 def main():
 	gameBoard = Board()
-	for i in range(20):
-		gameBoard.update()
+	display = Graphics(gameBoard, 250)
+	display.start()
 	
 if __name__ == "__main__":
 	main()

@@ -13,6 +13,11 @@ class Graphics:
     An object representing the board is provided, and a delay is given to 
     '''
     
+    TILE_SIZE = 10;
+    '''
+    Size of tiles in the grid. Specifically, the length in pixels of the sides of the square tiles.
+    '''
+    
     tk_root = None
     graphics = None
     
@@ -22,7 +27,9 @@ class Graphics:
     delay = 0
     ''' The interval between updates of the board (in miliseconds). '''
 
-    def __init__(self, board, delay = 0):
+    robotGraphics = {}
+
+    def __init__(self, board, delay=0):
         '''
         Constructor. It constructs stuff.
         '''
@@ -37,6 +44,16 @@ class Graphics:
         self.canvas = Canvas(self.tk_root)
         self.canvas.grid(column=0, row=0, sticky=(N, W, E, S))
         
+        # draw robots on canvas
+        for key in self.board.robots:
+            robot = self.board.robots[key]
+            self.robotGraphics[key] = self.canvas.create_rectangle((Graphics.TILE_SIZE * robot.xPosition,
+                                                                    Graphics.TILE_SIZE * robot.yPosition,
+                                                                    Graphics.TILE_SIZE * robot.xPosition + Graphics.TILE_SIZE,
+                                                                    Graphics.TILE_SIZE * robot.yPosition + Graphics.TILE_SIZE),
+                                                                   fill="red",
+                                                                   tags=('robot', key))
+        
     def redraw_board(self):
         '''
         Update board, then redraw it.
@@ -48,7 +65,14 @@ class Graphics:
         self.board.update();
         
         # redraw all robots
-        
+        for key in self.board.robots:
+            robot = self.board.robots[key]
+            robotid = self.robotGraphics[key]
+            self.canvas.coords(robotid, Graphics.TILE_SIZE * robot.xPosition,
+                                        Graphics.TILE_SIZE * robot.yPosition,
+                                        Graphics.TILE_SIZE * robot.xPosition + Graphics.TILE_SIZE,
+                                        Graphics.TILE_SIZE * robot.yPosition + Graphics.TILE_SIZE),
+                                         
         
         # reschedule update
         self.tk_root.after(self.delay, self.redraw_board)
@@ -58,4 +82,4 @@ class Graphics:
         start the canvas's main loop
         '''
         self.tk_root.after(self.delay, self.redraw_board)
-        self.tk_root.main_loop()
+        self.tk_root.mainloop()
