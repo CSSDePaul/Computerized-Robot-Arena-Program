@@ -28,7 +28,7 @@ class Board:
 		
 		print("initializing board")
 		
-		self.robots["Robot0"] = robot.Robot(0, 0, 0, decideAction, "Robot0")
+		self.robots["Robot0"] = robot.Robot(5, 5, 0, decideAction, "Robot0")
 
 	def update(self):
 		'''
