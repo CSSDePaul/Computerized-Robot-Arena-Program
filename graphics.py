@@ -5,6 +5,7 @@ Created on Feb 4, 2014
 '''
 
 from tkinter import *
+from math import cos, sin, radians
 
 class Graphics:
     '''
@@ -86,15 +87,13 @@ class Graphics:
             #currently by default the triangle is in the correct orientation
             #so this loop does nothing
             for i in range(3):
-                 self.rotatedTrianglePoints[i] = self.scaledTrianglePoints[i]
+                self.rotatedTrianglePoints[i][0] = self.scaledTrianglePoints[i][0] * cos(radians(robot.thetaPosition)) - self.scaledTrianglePoints[i][1] * sin(radians(robot.thetaPosition))
+                self.rotatedTrianglePoints[i][1] = self.scaledTrianglePoints[i][0] * sin(radians(robot.thetaPosition)) + self.scaledTrianglePoints[i][1] * cos(radians(robot.thetaPosition))
                 
             #translate the points of the triangle    
             for i in range(3):
                 self.translatedTrianglePoints[i][0] = self.rotatedTrianglePoints[i][0] + Graphics.TILE_SIZE * (self.trianglePointsOffset[0] + robot.xPosition)
                 self.translatedTrianglePoints[i][1] = self.rotatedTrianglePoints[i][1] + Graphics.TILE_SIZE * (self.trianglePointsOffset[1] + robot.yPosition)
-            
-            
-            print(self.translatedTrianglePoints)
             
             self.robotGraphics[key] = self.canvas.create_polygon(self.translatedTrianglePoints[0][0],
                                                                  self.translatedTrianglePoints[0][1],
@@ -119,12 +118,31 @@ class Graphics:
         for key in self.board.robots:
             robot = self.board.robots[key]
             robotid = self.robotGraphics[key]
-            self.canvas.coords(robotid, self.translatedTrianglePoints[0][0]+ robot.xPosition * Graphics.TILE_SIZE,
-                                        self.translatedTrianglePoints[0][1]+ robot.yPosition * Graphics.TILE_SIZE,
-                                        self.translatedTrianglePoints[1][0]+ robot.xPosition * Graphics.TILE_SIZE,
-                                        self.translatedTrianglePoints[1][1]+ robot.yPosition * Graphics.TILE_SIZE,
-                                        self.translatedTrianglePoints[2][0]+ robot.xPosition * Graphics.TILE_SIZE,
-                                        self.translatedTrianglePoints[2][1]+ robot.yPosition * Graphics.TILE_SIZE)
+            
+            #scale the points of the triangle shape to the size of the tile
+            for i in range(3):
+                for j in range(2):
+                    self.scaledTrianglePoints[i][j] = Graphics.TRIANGLE_POINTS[i][j] * Graphics.TILE_SIZE
+            
+            #rotate the points of the triangle shape to the correct orientation
+            #currently by default the triangle is in the correct orientation
+            #so this loop does nothing
+            for i in range(3):
+                self.rotatedTrianglePoints[i][0] = self.scaledTrianglePoints[i][0] * cos(radians(robot.thetaPosition)) - self.scaledTrianglePoints[i][1] * sin(radians(robot.thetaPosition))
+                self.rotatedTrianglePoints[i][1] = self.scaledTrianglePoints[i][0] * sin(radians(robot.thetaPosition)) + self.scaledTrianglePoints[i][1] * cos(radians(robot.thetaPosition))
+            
+                
+            #translate the points of the triangle    
+            for i in range(3):
+                self.translatedTrianglePoints[i][0] = self.rotatedTrianglePoints[i][0] + Graphics.TILE_SIZE * (self.trianglePointsOffset[0] + robot.xPosition)
+                self.translatedTrianglePoints[i][1] = self.rotatedTrianglePoints[i][1] + Graphics.TILE_SIZE * (self.trianglePointsOffset[1] + robot.yPosition)
+            
+            self.canvas.coords(robotid, self.translatedTrianglePoints[0][0],
+                                        self.translatedTrianglePoints[0][1],
+                                        self.translatedTrianglePoints[1][0],
+                                        self.translatedTrianglePoints[1][1],
+                                        self.translatedTrianglePoints[2][0],
+                                        self.translatedTrianglePoints[2][1])
                                          
         
         # reschedule update
