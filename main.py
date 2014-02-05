@@ -2,9 +2,9 @@ from board import Board
 from graphics import Graphics
 
 def main():
-	theBoard = Board()
-	display = Graphics(theBoard)
-	display.start()
+	gameBoard = Board()
+	for i in range(20):
+		gameBoard.update()
 	
 if __name__ == "__main__":
 	main()
