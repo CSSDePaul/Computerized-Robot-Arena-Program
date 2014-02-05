@@ -1,9 +1,10 @@
-from boardState import boardState
+from board import Board
+from graphics import Graphics
 
 def main():
-	theBoard = boardState()
-	for i in range(20):
-		theBoard.update()
+	theBoard = Board()
+	display = Graphics(theBoard)
+	display.start()
 	
 if __name__ == "__main__":
 	main()

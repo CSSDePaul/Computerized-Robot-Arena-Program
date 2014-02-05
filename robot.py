@@ -1,68 +1,147 @@
 from math import cos, sin, radians
-import randomScript as script
 
-class robot:
+class Robot:
+	'''
+	The parent class for all robot scripts.
+
+	Each robot is given an x and y coordinate,
+	a value for theta representing rotation,
+	and a string with a unique identifying name for the robot.
+	'''
+	
 	xPosition = 0
+	'''
+	The x coordinate of the robot on the game board.Board.
+	'''
+	
 	yPosition = 0
-	thetaPosition = 0  # 0 degrees is facing positive x direction
-	name = "robot"
-	image = ""  # the image file to display as the robot
+	'''
+	The y coordinate of the robot on the game board.Board.
+	'''
+	
+	thetaPosition = 0
+	'''
+	The orientation (rotation) of the robot.
+	
+	Measured in degrees (to allow for integral values),
+	0 degrees faces positive x direction,
+	rotation is anti-clockwise (maybe).
+	'''
+	
+	name = None
+	'''
+	A string representing the name of the robot.
+	
+	The string must be unique within the game simulation to avoid collisions.
+	If no string is provided to the constructor,
+	one that is guaranteed to be unique will be generated. 
+	'''
+	
+	image = None
+	'''
+	The image to use for graphical representations of the robot.
+	'''
+	
+	script = None
+	'''
+	A function pointer to the script defining the behavior of the robot.
+	'''
 
-	# the constructor for the robot
-	# x = starting x coordinate
-	# y = starting y coordinate
-	# t = starting angle (0 degrees is facing positive x, 90 is facing positive y)
-	def __init__(self, x, y, t, Str):
+	def __init__(self, x, y, theta, script, name=None):
+		'''
+		Constructor method.
+		
+		@param x: The starting x coordinate of the robot.
+		
+		@param y: The starting y coordinate of the robot.
+		
+		@param theta: The starting theta of the robot.
+		
+		@param script: A function pointer to the script defining the behavior of the robot.
+		
+		@param name: The name of the robot. If no name is provided a unique, random name will be provided.
+		'''
+		
+		# set parameter values
 		self.xPosition = x
 		self.yPosition = y
-		self.thetaPosition = t
-		self.name = Str
-	
-	# Returns a string from boardState.MOVEFUNCTIONS.keys()
-	# this is the action the agent decided to take
-	# the human player uploads a script that is called by this action 
-	def decideAction(self, boardState):
-		return script.decideAction(boardState)
+		self.thetaPosition = theta
+		self.script = script
+		
+		# if no name provided, create unique name
+		if name is None:
+			
+			# name is the default string of the object,
+			# which includes the memory address,
+			# guaranteeing that the string is unique.
+			name = str(self);
+			
+		self.name = name
 
-	# The robot first decides on an action to take, then executes the action
-	def takeAction(self, boardState):
-		global theFunction
-		action = self.decideAction(boardState)
-		print("action taken by %s is %s" % (self.name, action))
-		theAction = boardState.MOVEFUNCTIONS[action]  # maps string to function
-		theAction(self, boardState)  # calls the appropriate function
-	
-	# The function called from takeAction
-	# this function becomes a function corresponding to an action
-	def theAction(self, boardState):  # is replaced when takeAction is called
-		raise NotImplementedError
+	def takeAction(self, board):
+		'''
+		Call the behavior script and then take the chosen action.
+		'''
+		
+		# call behavior script
+		# behavior script returns function pointer for action to be performed
+		action = self.script(self, board)
+		
+		print("action taken by %s is %s" % (self.name, str(action)))
+		
+		action(self, board)
 
-	def turnLeft(self, boardState):
+
+	def turnLeft(self, board):
+		'''
+		Rotate the robot 90 degrees to the left.
+		'''
 		self.thetaPosition = (self.thetaPosition + 90) % 360
 	
-	def turnRight(self, boardState):
+	def turnRight(self, board):
+		'''
+		Rotate the robot 90 degrees to the right
+		'''
 		self.thetaPosition = (self.thetaPosition - 90) % 360
 
-	# moves forward one space in the appropriate direction
-	# if it runs into a wall, it will simply not move
-	def moveForward(self, boardState):
+	def moveForward(self, board):
+		'''
+		Moves the robot forward one space in the current direction.
+		If it runs into a wall, it will simply not move.
+		
+		@param board: A reference to the board object. This is used for checking bounds and collisions.
+		'''
 		newX = self.xPosition + cos(radians(self.thetaPosition))
 		newY = self.yPosition + sin(radians(self.thetaPosition))
-		if newX < 0 or newX >= boardState.BOARD_SIZE:
-			return
-		if newY < 0 or newY >= boardState.BOARD_SIZE:
-			return
+		
+		# if board is infinite, no need to check against board.Board bounds
+		if board.BOARD_SIZE > 0:
+			if newX < 0 or newX >= board.BOARD_SIZE:
+				return
+			if newY < 0 or newY >= board.BOARD_SIZE:
+				return
+			
+		# update position
 		self.xPosition = newX
 		self.yPosition = newY
 	
-	# Returns a dictionary with the following information:
-	# 	'x': the x coordinate
-	# 	'y': the y coordinate
-	# 	'a': the angle
 	def drawArgs(self):
-		return {"x":self.xPosition, "y": self.yPosition, "a": self.thetaPosition}
+		'''
+		Returns a dictionary with information on the robot's current position.
+		
+		@return: 
+		'''
+		return {
+				"x":self.xPosition,
+				"y": self.yPosition,
+				"theta": self.thetaPosition
+				}
 
-	# Returns the string representation of the robot (called whenever object is converted to string)
+	# Returns the string representation of the Robot (called whenever object is converted to string)
+	
 	def __str__(self):
-		return "Robot %s at (%i, %i) facing %i degrees" % (\
+		'''
+		Returns the string representation of the Robot
+		'''
+		return "Robot %s at (%i, %i) facing %i degrees" % (
 				self.name, self.xPosition, self.yPosition, self.thetaPosition)
