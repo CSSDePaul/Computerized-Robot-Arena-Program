@@ -1,4 +1,4 @@
-from robot import robot
+from robot import Robot
 
 class boardState:
 	BOARD_SIZE = 10
