@@ -32,7 +32,7 @@ class Board:
 		
 		for i in range(len(scripts)):
 			robotName = "Robot_" + str(i)
-			self.robots[robotName] = robot.Robot(0, 0, 0, scripts[i], robotName)
+			self.robots[robotName] = robot.Robot(5, 5, 0, scripts[i], robotName)
 
 	def update(self):
 		'''
