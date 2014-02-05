@@ -1,5 +1,4 @@
 import robot
-from randomScript import decideAction
 
 class Board:
 	'''
@@ -21,14 +20,19 @@ class Board:
 	A list containing the robot.Robots on the board.
 	'''
 	
-	def __init__(self):
+	def __init__(self, scripts):
 		'''
 		Initializes robot.Robots to add to Board
+		
+		@param scripts: function pointers to the scripts which define the robot behaviors.
+		One robot will be created for each script provided.
 		'''
 		
 		print("initializing board")
 		
-		self.robots["Robot0"] = robot.Robot(0, 0, 0, decideAction, "Robot0")
+		for i in range(len(scripts)):
+			robotName = "Robot_" + str(i)
+			self.robots[robotName] = robot.Robot(0, 0, 0, scripts[i], robotName)
 
 	def update(self):
 		'''
@@ -36,5 +40,4 @@ class Board:
 		'''
 		
 		for key in self.robots:
-			print(key + " moving")
 			self.robots[key].takeAction(self)
