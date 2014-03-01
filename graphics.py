@@ -5,6 +5,7 @@ Created on Feb 4, 2014
 '''
 
 from tkinter import *
+from math import cos, sin, radians
 
 class Graphics:
     '''
@@ -16,6 +17,34 @@ class Graphics:
     TILE_SIZE = 10;
     '''
     Size of tiles in the grid. Specifically, the length in pixels of the sides of the square tiles.
+    '''
+    
+    TRIANGLE_POINTS = ((.577, 0), (-.289, -.5), (-.289, .5))
+    '''
+    Object coordinates for an equilateral triangle with a circumcenter at the origin, side length 1,
+    and pointing at the positive x direction.
+    '''
+    
+    scaledTrianglePoints = [[0,0],[0,0],[0,0]]
+    '''
+    Scaled object coordinates for an equilateral triangle with a circumcenter at the origin, side length
+    of the tile size, and pointing at the positive x direction.
+    '''
+    
+    trianglePointsOffset = (.423, .5)
+    '''
+    Offset of the circumcenter of the triangle from the top left (least x and least y) corner of the tile it is in.
+    The tip of the triangle is touching the positive x side of the tile on the right side.
+    '''
+    
+    rotatedTrianglePoints = [[0,0],[0,0],[0,0]]
+    '''
+    Points of the triangle rotated around the circumcenter.
+    '''
+    
+    translatedTrianglePoints = [[0,0],[0,0],[0,0]]
+    '''
+    Points of the triangle translated into world coordinates.
     '''
     
     tk_root = None
@@ -40,6 +69,7 @@ class Graphics:
         Constructor. It constructs stuff.
         '''
         
+        
         # assign parameter values
         self.board = board;
         self.delay = delay;
@@ -53,12 +83,32 @@ class Graphics:
         # draw robots on canvas
         for key in self.board.robots:
             robot = self.board.robots[key]
-            self.robotGraphics[key] = self.canvas.create_rectangle((Graphics.TILE_SIZE * robot.xPosition,
-                                                                    Graphics.TILE_SIZE * robot.yPosition,
-                                                                    Graphics.TILE_SIZE * robot.xPosition + Graphics.TILE_SIZE,
-                                                                    Graphics.TILE_SIZE * robot.yPosition + Graphics.TILE_SIZE),
-                                                                   fill="red",
-                                                                   tags=('robot', key))
+            
+            #scale the points of the triangle shape to the size of the tile
+            for i in range(3):
+                for j in range(2):
+                    self.scaledTrianglePoints[i][j] = Graphics.TRIANGLE_POINTS[i][j] * Graphics.TILE_SIZE
+            
+            #rotate the points of the triangle shape to the correct orientation
+            #currently by default the triangle is in the correct orientation
+            #so this loop does nothing
+            for i in range(3):
+                self.rotatedTrianglePoints[i][0] = self.scaledTrianglePoints[i][0] * cos(radians(robot.thetaPosition)) - self.scaledTrianglePoints[i][1] * sin(radians(robot.thetaPosition))
+                self.rotatedTrianglePoints[i][1] = self.scaledTrianglePoints[i][0] * sin(radians(robot.thetaPosition)) + self.scaledTrianglePoints[i][1] * cos(radians(robot.thetaPosition))
+                
+            #translate the points of the triangle    
+            for i in range(3):
+                self.translatedTrianglePoints[i][0] = self.rotatedTrianglePoints[i][0] + Graphics.TILE_SIZE * (self.trianglePointsOffset[0] + robot.xPosition)
+                self.translatedTrianglePoints[i][1] = self.rotatedTrianglePoints[i][1] + Graphics.TILE_SIZE * (self.trianglePointsOffset[1] + robot.yPosition)
+            
+            self.robotGraphics[key] = self.canvas.create_polygon(self.translatedTrianglePoints[0][0],
+                                                                 self.translatedTrianglePoints[0][1],
+                                                                 self.translatedTrianglePoints[1][0],
+                                                                 self.translatedTrianglePoints[1][1],
+                                                                 self.translatedTrianglePoints[2][0],
+                                                                 self.translatedTrianglePoints[2][1],
+                                                                 fill="red",
+                                                                 tags=('robot', key))
         
     def update(self):
         '''
@@ -72,10 +122,31 @@ class Graphics:
         for key in self.board.robots:
             robot = self.board.robots[key]
             robotid = self.robotGraphics[key]
-            self.canvas.coords(robotid, Graphics.TILE_SIZE * robot.xPosition,
-                                        Graphics.TILE_SIZE * robot.yPosition,
-                                        Graphics.TILE_SIZE * robot.xPosition + Graphics.TILE_SIZE,
-                                        Graphics.TILE_SIZE * robot.yPosition + Graphics.TILE_SIZE),
+            
+            #scale the points of the triangle shape to the size of the tile
+            for i in range(3):
+                for j in range(2):
+                    self.scaledTrianglePoints[i][j] = Graphics.TRIANGLE_POINTS[i][j] * Graphics.TILE_SIZE
+            
+            #rotate the points of the triangle shape to the correct orientation
+            #currently by default the triangle is in the correct orientation
+            #so this loop does nothing
+            for i in range(3):
+                self.rotatedTrianglePoints[i][0] = self.scaledTrianglePoints[i][0] * cos(radians(robot.thetaPosition)) - self.scaledTrianglePoints[i][1] * sin(radians(robot.thetaPosition))
+                self.rotatedTrianglePoints[i][1] = self.scaledTrianglePoints[i][0] * sin(radians(robot.thetaPosition)) + self.scaledTrianglePoints[i][1] * cos(radians(robot.thetaPosition))
+            
+                
+            #translate the points of the triangle    
+            for i in range(3):
+                self.translatedTrianglePoints[i][0] = self.rotatedTrianglePoints[i][0] + Graphics.TILE_SIZE * (self.trianglePointsOffset[0] + robot.xPosition)
+                self.translatedTrianglePoints[i][1] = self.rotatedTrianglePoints[i][1] + Graphics.TILE_SIZE * (self.trianglePointsOffset[1] + robot.yPosition)
+            
+            self.canvas.coords(robotid, self.translatedTrianglePoints[0][0],
+                                        self.translatedTrianglePoints[0][1],
+                                        self.translatedTrianglePoints[1][0],
+                                        self.translatedTrianglePoints[1][1],
+                                        self.translatedTrianglePoints[2][0],
+                                        self.translatedTrianglePoints[2][1])
                                          
         
         # reschedule update

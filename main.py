@@ -1,12 +1,12 @@
 from board import Board
 from graphics import Graphics
 
-from randomScript import decideAction  # shitty hard-coded include for testing
+from randomScript import randomScript # shitty hard-coded include for testing
 
 def main():
 	
 	# create list of behaviors
-	behaviors = [ decideAction ]
+	behaviors = [ randomScript() ]
 	
 	# instantiate Board object
 	gameBoard = Board(behaviors)

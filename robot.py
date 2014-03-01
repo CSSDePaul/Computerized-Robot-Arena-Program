@@ -85,12 +85,11 @@ class Robot:
 		
 		# call behavior script
 		# behavior script returns function pointer for action to be performed
-		action = self.script(self, board)
+		action = self.script.decideAction(self, board)
 		
 		print("action taken by %s is %s" % (self.name, str(action)))
 		
 		action(self, board)
-
 
 	def turnLeft(self, board):
 		'''
