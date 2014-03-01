@@ -19,7 +19,9 @@ class Graphics:
     '''
     
     tk_root = None
-    graphics = None
+    '''
+    The root tkinter object.
+    '''
     
     board = None
     ''' Object representing the current state of the game board. '''
@@ -28,6 +30,10 @@ class Graphics:
     ''' The interval between updates of the board (in miliseconds). '''
 
     robotGraphics = {}
+    '''
+    A dict of the id's of the robot graphics,
+    indexed by the key for the corresponding robot object in board.robots .
+    '''
 
     def __init__(self, board, delay=0):
         '''
@@ -54,12 +60,10 @@ class Graphics:
                                                                    fill="red",
                                                                    tags=('robot', key))
         
-    def redraw_board(self):
+    def update(self):
         '''
-        Update board, then redraw it.
+        Updates the board, then redraws the board
         '''
-        
-        print(self.delay)
         
         # update board
         self.board.update();
@@ -75,11 +79,11 @@ class Graphics:
                                          
         
         # reschedule update
-        self.tk_root.after(self.delay, self.redraw_board)
+        self.tk_root.after(self.delay, self.update)
         
     def start(self):
         '''
-        start the canvas's main loop
+        Starts the tkinter's main loop and schedules the first update event.
         '''
-        self.tk_root.after(self.delay, self.redraw_board)
+        self.tk_root.after(self.delay, self.update)
         self.tk_root.mainloop()
