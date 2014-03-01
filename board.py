@@ -1,4 +1,12 @@
 import robot
+'''
+provides access to robot constructor.
+'''
+
+from random import shuffle
+'''
+Import shuffle function to randomize turn order.
+'''
 
 class Board:
 	'''
@@ -17,7 +25,12 @@ class Board:
 	
 	robots = {}
 	'''
-	A list containing the robot.Robots on the board.
+	A dict containing the active robot.Robots on the board.
+	'''
+
+	destroyed = {}
+	'''
+	A dict for stashing destroyed robots.
 	'''
 	
 	def __init__(self, scripts):
@@ -36,8 +49,34 @@ class Board:
 
 	def update(self):
 		'''
-		Updates the positions of all robot.Robots and performs all other simulation logic.
+		Updates the positions of all robots and performs all other simulation logic.
 		'''
 		
-		for key in self.robots:
+		# make a copy of the list of keys so python doesn't freak out if a robot gets deleted
+		keys = list(self.robots.keys())
+
+		# shuffle list for random turn order
+		shuffle(keys)
+
+		for key in keys:
+
+			# double check that robots[key] has not been destroyed
+			if key not in self.robots:
+				continue
+
+			# Have robot act
 			self.robots[key].takeAction(self)
+
+			# check to see if any robot has been destroyed
+			keys2 = list(self.robots.keys())
+			for key2 in keys2:
+
+				if self.robots[key2].health == 0:
+
+					print(self.robots[key2], " destroyed")
+
+					# stash destroyed robot
+					self.destroyed[key2] = self.robots[key2]
+
+					# remove destroyed robot from robot list
+					del self.robots[key2]
