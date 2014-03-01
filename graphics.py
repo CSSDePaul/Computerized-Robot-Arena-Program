@@ -21,14 +21,12 @@ class Graphics:
     
     TRIANGLE_POINTS = ((.577, 0), (-.289, -.5), (-.289, .5))
     '''
-    Object coordinates for an equilateral triangle with a circumcenter at the origin, side length 1,
-    and pointing at the positive x direction.
+    Object coordinates for a scalene triangle with a circumcenter at the origin, pointing at the positive x direction.
     '''
     
     scaledTrianglePoints = [[0,0],[0,0],[0,0]]
     '''
-    Scaled object coordinates for an equilateral triangle with a circumcenter at the origin, side length
-    of the tile size, and pointing at the positive x direction.
+    Scaled object coordinates for a scalene triangle with a circumcenter at the origin, pointing at the positive x direction.
     '''
     
     trianglePointsOffset = (.423, .5)
@@ -38,19 +36,13 @@ class Graphics:
     '''
     
     rotatedTrianglePoints = [[0,0],[0,0],[0,0]]
-    '''
-    Points of the triangle rotated around the circumcenter.
-    '''
+    ''' Points of the triangle rotated around the circumcenter. '''
     
     translatedTrianglePoints = [[0,0],[0,0],[0,0]]
-    '''
-    Points of the triangle translated into world coordinates.
-    '''
+    ''' Points of the triangle translated into world coordinates. '''
     
     tk_root = None
-    '''
-    The root tkinter object.
-    '''
+    ''' The root tkinter object. '''
     
     board = None
     ''' Object representing the current state of the game board. '''

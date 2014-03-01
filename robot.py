@@ -8,6 +8,11 @@ class Robot:
 	a value for theta representing rotation,
 	and a string with a unique identifying name for the robot.
 	'''
+
+	DEFAULT_HEALTH = 1
+	'''
+	The starting health value for robots on the field.
+	'''
 	
 	xPosition = 0
 	'''
@@ -17,6 +22,11 @@ class Robot:
 	yPosition = 0
 	'''
 	The y coordinate of the robot on the game board.Board.
+	'''
+
+	health = 0
+	'''
+	The amount of health the robot has. Defaults to 
 	'''
 	
 	thetaPosition = 0
@@ -47,7 +57,7 @@ class Robot:
 	A function pointer to the script defining the behavior of the robot.
 	'''
 
-	def __init__(self, x, y, theta, script, name=None):
+	def __init__(self, x, y, theta, script, name = None, health = DEFAULT_HEALTH):
 		'''
 		Constructor method.
 		
@@ -60,6 +70,8 @@ class Robot:
 		@param script: A function pointer to the script defining the behavior of the robot.
 		
 		@param name: The name of the robot. If no name is provided a unique, random name will be provided.
+
+		@param health: The starting heald of the robot. Defaults to Robot::DEFAULT_HEALTH
 		'''
 		
 		# set parameter values
@@ -67,6 +79,7 @@ class Robot:
 		self.yPosition = y
 		self.thetaPosition = theta
 		self.script = script
+		self.health = health
 		
 		# if no name provided, create unique name
 		if name is None:
@@ -74,7 +87,7 @@ class Robot:
 			# name is the default string of the object,
 			# which includes the memory address,
 			# guaranteeing that the string is unique.
-			name = str(self);
+			name = id(self);
 			
 		self.name = name
 
