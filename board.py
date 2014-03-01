@@ -25,7 +25,7 @@ class Board:
 	
 	robots = {}
 	'''
-	A dict containing the active robot.Robots on the board.
+	A dict containing the active robots on the board.
 	'''
 
 	destroyed = {}

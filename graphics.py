@@ -104,14 +104,28 @@ class Graphics:
         
     def update(self):
         '''
-        Updates the board, then redraws the board
+        Updates the board, then redraws the board.
+
+        Performs the logic for determining when the game ends.
         '''
         
-        # update board
+        if (len(self.board.robots) <= 1):
+            # if 1 or 0 robots left, end game
+
+            # end tkinter loop
+            self.tk_root.quit()
+
+            # print winner
+            print("A winner is " + list(self.board.robots.keys())[0])
+
+            # exit
+            return
+
+
         self.board.update();
         
-        # redraw all robots
         for key in self.board.robots:
+            # redraw all robots
             robot = self.board.robots[key]
             robotid = self.robotGraphics[key]
             
