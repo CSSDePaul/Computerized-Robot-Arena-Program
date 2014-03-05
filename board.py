@@ -47,7 +47,7 @@ class Board:
 		
 		print("initializing board")
 		
-		for i in range(1):
+		for i in range(len(scripts)):
 			robotName = "Robot_" + str(i)
 			
 			print("initializing " + robotName)
@@ -154,5 +154,5 @@ class Board:
 		for key in self.actors:
 			if (isinstance(self.actors[key], projectile.Projectile)):
 				result[key] = self.actors[key]
-				
+
 		return result
