@@ -1,4 +1,5 @@
 from actor import Actor
+import projectile
 
 from math import cos, sin, radians
 
@@ -14,11 +15,6 @@ class Robot(Actor):
 	DEFAULT_HEALTH = 1
 	'''
 	The starting health value for robots on the field.
-	'''
-
-	health = 0
-	'''
-	The amount of health the robot has. Defaults to 
 	'''
 	
 	script = None
@@ -84,7 +80,27 @@ class Robot(Actor):
 		Rotate the robot 90 degrees to the right
 		'''
 		self.rotation = (self.rotation - 90) % 360
-
+		
+	def shootProjectile(self, board):
+		'''
+		Creates a projectile in front and adds it to the board
+		
+		@param board: A reference to the board object. This is used for checking bounds and collisions.
+		'''
+		targetX = self.xPosition + cos(radians(self.rotation))
+		targetY = self.yPosition + sin(radians(self.rotation))
+		
+		# if board is infinite, no need to check against board.Board bounds
+		if board.BOARD_SIZE > 0:
+			if targetX < 0 or targetX >= board.BOARD_SIZE:
+				return
+			if targetY < 0 or targetY >= board.BOARD_SIZE:
+				return
+			
+		# create projectile
+		newProjectile = projectile.Projectile(targetX, targetY, self.rotation)
+		board.actors[newProjectile.name] = newProjectile;
+		
 	def moveForward(self, board):
 		'''
 		Moves the robot forward one space in the current direction.
@@ -105,24 +121,3 @@ class Robot(Actor):
 		# update position
 		self.xPosition = newX
 		self.yPosition = newY
-	
-	def drawArgs(self):
-		'''
-		Returns a dictionary with information on the robot's current position.
-		
-		@return: 
-		'''
-		return {
-				"x":self.xPosition,
-				"y": self.yPosition,
-				"theta": self.rotation
-				}
-
-	# Returns the string representation of the Robot (called whenever object is converted to string)
-	
-	def __str__(self):
-		'''
-		Returns the string representation of the Robot
-		'''
-		return "Robot %s at (%i, %i) facing %i degrees" % (
-				self.name, self.xPosition, self.yPosition, self.rotation)

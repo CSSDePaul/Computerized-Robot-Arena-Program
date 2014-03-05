@@ -19,7 +19,7 @@ class Actor:
 	
 	Measured in degrees (to allow for integral values),
 	0 degrees faces positive x direction,
-	rotation is anti-clockwise (maybe).
+	rotation is clockwise (maybe).
 	'''
 	
 	name = None
@@ -36,9 +36,31 @@ class Actor:
 	The image to use for graphical representations of the actor.
 	'''
 
+	health = 0
+	'''
+	The amount of health the actor has. Defaults to 0. 0 is used as a flag for the board to get rid of the actor
+	'''
+
 	def __init__(self, x, y, rotation, name = None, image = None):
 		self.xPosition = x
 		self.yPosition = y
 		self.rotation = rotation
 		self.name = name
 		self.image = image
+		
+	def drawArgs(self):
+		'''
+		@return: a dictionary with information on the robot's current position.
+		'''
+		return {
+				"x":self.xPosition,
+				"y": self.yPosition,
+				"theta": self.rotation
+				}
+	
+	def __str__(self):
+		'''
+		@return: The string representation of the Actor (called whenever object is converted to string)
+		'''
+		return "Robot %s at (%i, %i) facing %i degrees" % (
+				self.name, self.xPosition, self.yPosition, self.rotation)

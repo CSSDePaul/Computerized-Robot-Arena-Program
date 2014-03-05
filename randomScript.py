@@ -1,7 +1,7 @@
 import robot
 import random
 
-MOVEFUNCTIONS = [robot.Robot.turnLeft, robot.Robot.turnRight, robot.Robot.moveForward]
+MOVEFUNCTIONS = [robot.Robot.turnLeft, robot.Robot.turnRight, robot.Robot.moveForward, robot.Robot.shootProjectile]
 
 class randomScript:
 
