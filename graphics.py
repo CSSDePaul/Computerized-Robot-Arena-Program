@@ -71,7 +71,7 @@ class Graphics:
     actorGraphics = {}
     '''
     A dict of the id's of the actor graphics,
-    indexed by the key for the corresponding robot object in board.robots .
+    indexed by the key for the corresponding robot object in board.actors .
     '''
 
     def __init__(self, board, delay=0):
@@ -124,7 +124,7 @@ class Graphics:
         #if already not in actorGraphics dict
         if self.actorGraphics.get(key) == None:
             if type(actor) is Robot:
-                 self.actorGraphics[key] = self.canvas.create_polygon(self.translatedTrianglePoints[0][0],
+                self.actorGraphics[key] = self.canvas.create_polygon(self.translatedTrianglePoints[0][0],
                                                                       self.translatedTrianglePoints[0][1],
                                                                       self.translatedTrianglePoints[1][0],
                                                                       self.translatedTrianglePoints[1][1],
@@ -133,7 +133,7 @@ class Graphics:
                                                                       fill="red",
                                                                       tags=('robot', key))
             elif type(actor) is Projectile:
-                 self.actorGraphics[key] = self.canvas.create_polygon(self.translatedTrianglePoints[0][0],
+                self.actorGraphics[key] = self.canvas.create_polygon(self.translatedTrianglePoints[0][0],
                                                                       self.translatedTrianglePoints[0][1],
                                                                       self.translatedTrianglePoints[1][0],
                                                                       self.translatedTrianglePoints[1][1],
@@ -165,20 +165,26 @@ class Graphics:
             self.tk_root.quit()
 
             # print winner
-            var = input("A winner is " + list(self.board.actors.keys())[0])
             print("A winner is " + list(self.board.actors.keys())[0])
+            
             # exit
             return
 
         self.board.update();
         
+        # iterate over the list of destroyed actors
+        # if it is still in the set of displayed actors, remove graphic
         for key in self.board.destroyed:
-            if self.actorGraphics.get(key) != None:
+            if key in self.actorGraphics:
+                
+                # delete tkinter graphic
+                self.canvas.delete(self.actorGraphics[key])
+                
+                # delte key from dict
                 del self.actorGraphics[key];
-                self.canvas.delete(key)
         
         for key in self.board.actors:
-           self.drawActor(key)
+            self.drawActor(key)
         
         # reschedule update
         self.tk_root.after(self.delay, self.update)

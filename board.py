@@ -47,8 +47,11 @@ class Board:
 		
 		print("initializing board")
 		
-		for i in range(1):#range(len(scripts)):
+		for i in range(1):
 			robotName = "Robot_" + str(i)
+			
+			print("initializing " + robotName)
+			
 			self.actors[robotName] = robot.Robot(5+i, 5+i, 0, scripts[i], robotName)
 		
 		self.actors["Projectile_0"] = projectile.Projectile(0, 0, 0,"Projectile_0")
@@ -105,3 +108,25 @@ class Board:
 				return True
 
 		return False
+	
+	def spawnProjectile(self, x, y, rotation):
+		'''
+		Instantiates a new projectile object and add it to the list of actors.
+		
+		@param x: the x coordinate of the projectile to be spawned
+		@param y: the y coordinate of the projectile to be spawned
+		@param rotation: the direction the projectile should move in.
+		'''
+		
+		# if board is infinite, no need to check against board bounds
+		if self.BOARD_SIZE > 0:
+			
+			# if out of bounds, return without spawning projectiles
+			if x < 0 or x >= self.BOARD_SIZE:
+				return
+			if y < 0 or y >= self.BOARD_SIZE:
+				return
+			
+		# spawn projectile
+		newProjectile = projectile.Projectile(x, y, rotation)
+		self.actors[newProjectile.name] = newProjectile;

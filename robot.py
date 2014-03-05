@@ -92,19 +92,13 @@ class Robot(Actor):
 		
 		@param board: A reference to the board object. This is used for checking bounds and collisions.
 		'''
+		
+		# get coordinates of space in front of robot
+		# same code as in moveForward()
 		targetX = self.xPosition + cos(radians(self.rotation))
 		targetY = self.yPosition + sin(radians(self.rotation))
 		
-		# if board is infinite, no need to check against board.Board bounds
-		if board.BOARD_SIZE > 0:
-			if targetX < 0 or targetX >= board.BOARD_SIZE:
-				return
-			if targetY < 0 or targetY >= board.BOARD_SIZE:
-				return
-			
-		# create projectile
-		newProjectile = projectile.Projectile(targetX, targetY, self.rotation)
-		board.actors[newProjectile.name] = newProjectile;
+		board.spawnProjectile(targetX, targetY, self.rotation)
 		
 	def moveForward(self, board):
 		'''

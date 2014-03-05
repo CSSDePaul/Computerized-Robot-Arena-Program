@@ -40,8 +40,8 @@ class Projectile(Actor):
         # name is the default string of the object,
         # which includes the memory address,
         # guaranteeing that the string is unique.
-        if name == None:
-            self.name = id(self);
+        if not name:
+            self.name = str(id(self));
         else:
             self.name = name
         
