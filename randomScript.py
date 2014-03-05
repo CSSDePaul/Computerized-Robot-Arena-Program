@@ -1,18 +1,15 @@
-import robot
 import random
 
-MOVEFUNCTIONS = [robot.Robot.turnLeft, robot.Robot.turnRight, robot.Robot.moveForward, robot.Robot.shootProjectile]
-
-class randomScript:
+class robotBehavior:
 
 	# Returns a string from Board.MOVEFUNCTIONS.keys()
 	# this is the action the agent decided to take
 	# the human player uploads a script that is called by this action 
-	def decideAction(self, robot, Board):
+	def decideAction(self, robot, board, actions):
 		'''
 		Returns the alias to a random movement function in the robot class
 		'''
-		return random.choice(MOVEFUNCTIONS)
+		return random.choice(actions)
 		
 	def __init__(self):
 		pass
