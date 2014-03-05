@@ -15,11 +15,6 @@ class Robot(Actor):
 	'''
 	The starting health value for robots on the field.
 	'''
-
-	health = 0
-	'''
-	The amount of health the robot has. Defaults to 
-	'''
 	
 	script = None
 	'''
@@ -105,24 +100,3 @@ class Robot(Actor):
 		# update position
 		self.xPosition = newX
 		self.yPosition = newY
-	
-	def drawArgs(self):
-		'''
-		Returns a dictionary with information on the robot's current position.
-		
-		@return: 
-		'''
-		return {
-				"x":self.xPosition,
-				"y": self.yPosition,
-				"theta": self.rotation
-				}
-
-	# Returns the string representation of the Robot (called whenever object is converted to string)
-	
-	def __str__(self):
-		'''
-		Returns the string representation of the Robot
-		'''
-		return "Robot %s at (%i, %i) facing %i degrees" % (
-				self.name, self.xPosition, self.yPosition, self.rotation)

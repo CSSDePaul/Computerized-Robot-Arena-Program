@@ -56,12 +56,14 @@ class Board:
 		keys = list(self.actors.keys())
 
 		# shuffle list for random turn order
+		# chosen so that turn order is not predictably in order to simulate all 
+		# action happening concurrently on average
 		shuffle(keys)
 
 		for key in keys:
 
 			# double check that actors[key] has not been destroyed
-			if key not in self.actors:
+			if key in self.destroyed:
 				continue
 
 			# Have robot act
@@ -71,7 +73,8 @@ class Board:
 			keys2 = list(self.actors.keys())
 			for key2 in keys2:
 
-				if self.actors[key2].health == 0:
+				# health == 0 is used a general flag for destroying an actor
+				if self.actors[key2].health <= 0:
 
 					print(self.actors[key2], " destroyed")
 
