@@ -47,12 +47,13 @@ class Board:
 		
 		print("initializing board")
 		
-		for i in range(len(scripts)):
+		for i in range(1):#range(len(scripts)):
 			robotName = "Robot_" + str(i)
 			self.actors[robotName] = robot.Robot(5+i, 5+i, 0, scripts[i], robotName)
 		
-		#self.actors["Projectile_0"] = projectile.Projectile(0, 0, 0,"Projectile_0")
-		#self.actors["Projectile_1"] = projectile.Projectile(0, 1, 90,"Projectile_1")
+		self.actors["Projectile_0"] = projectile.Projectile(0, 0, 0,"Projectile_0")
+		self.actors["Projectile_1"] = projectile.Projectile(0, 1, 90,"Projectile_1")
+		self.actors["Projectile_1"] = projectile.Projectile(0, 15, 90,"Projectile_1")
 			
 
 	def update(self):
@@ -98,7 +99,6 @@ class Board:
 
 		@returns true if there is an actor at coordinates (x,y).
 		'''
-
 		for key in self.actors:
 			actor = self.actors[key]
 			if x == actor.x and y == actor.y:

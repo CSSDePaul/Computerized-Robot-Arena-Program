@@ -89,35 +89,40 @@ class Graphics:
         self.canvas.grid(column=0, row=0, sticky=(N, W, E, S))
         
         for key in self.board.actors:
-            actor = self.board.actors[key]
-            
-            # The points are first gotten from the object coordinates for the object. then they are scaled, rotated and translated
-            
-            if type(actor) is Robot:
-                #scale the points of the triangle shape to the size of the tile
-                for i in range(3):
-                    for j in range(2):
-                        self.scaledTrianglePoints[i][j] = Graphics.ROBOT_TRIANGLE_POINTS[i][j] * Graphics.TILE_SIZE
-            elif type(actor) is Projectile:
-                #scale the points of the triangle shape to the size of the tile
-                for i in range(3):
-                    for j in range(2):
-                        self.scaledTrianglePoints[i][j] = Graphics.PROJECTILE_TRIANGLE_POINTS[i][j] * Graphics.TILE_SIZE
-            else:
-                continue
-            
-            #rotate the points of the triangle shape to the correct orientation
-            #so this loop does nothing
+            self.drawActor(key)
+        
+    def drawActor(self, key):
+        '''
+        Does the transformations and logic needed to draw the actors to the screen
+        '''
+        actor = self.board.actors[key]
+        
+        if type(actor) is Robot:
+            #scale the points of the triangle shape to the size of the tile
             for i in range(3):
-                self.rotatedTrianglePoints[i][0] = self.scaledTrianglePoints[i][0] * cos(radians(actor.rotation)) - self.scaledTrianglePoints[i][1] * sin(radians(actor.rotation))
-                self.rotatedTrianglePoints[i][1] = self.scaledTrianglePoints[i][0] * sin(radians(actor.rotation)) + self.scaledTrianglePoints[i][1] * cos(radians(actor.rotation))
-                
-            #translate the points of the triangle    
+                for j in range(2):
+                    self.scaledTrianglePoints[i][j] = Graphics.ROBOT_TRIANGLE_POINTS[i][j] * Graphics.TILE_SIZE
+        elif type(actor) is Projectile:
+            #scale the points of the triangle shape to the size of the tile
             for i in range(3):
-                self.translatedTrianglePoints[i][0] = self.rotatedTrianglePoints[i][0] + Graphics.TILE_SIZE * (self.trianglePointsOffset[0] + actor.xPosition)
-                self.translatedTrianglePoints[i][1] = self.rotatedTrianglePoints[i][1] + Graphics.TILE_SIZE * (self.trianglePointsOffset[1] + actor.yPosition)
+                for j in range(2):
+                    self.scaledTrianglePoints[i][j] = Graphics.PROJECTILE_TRIANGLE_POINTS[i][j] * Graphics.TILE_SIZE
+        else:
+            return
+        
+        #rotate the points of the triangle shape to the correct orientation
+        #so this loop does nothing
+        for i in range(3):
+            self.rotatedTrianglePoints[i][0] = self.scaledTrianglePoints[i][0] * cos(radians(actor.rotation)) - self.scaledTrianglePoints[i][1] * sin(radians(actor.rotation))
+            self.rotatedTrianglePoints[i][1] = self.scaledTrianglePoints[i][0] * sin(radians(actor.rotation)) + self.scaledTrianglePoints[i][1] * cos(radians(actor.rotation))
             
-            
+        #translate the points of the triangle    
+        for i in range(3):
+            self.translatedTrianglePoints[i][0] = self.rotatedTrianglePoints[i][0] + Graphics.TILE_SIZE * (self.trianglePointsOffset[0] + actor.xPosition)
+            self.translatedTrianglePoints[i][1] = self.rotatedTrianglePoints[i][1] + Graphics.TILE_SIZE * (self.trianglePointsOffset[1] + actor.yPosition)
+        
+        #if already not in actorGraphics dict
+        if self.actorGraphics.get(key) == None:
             if type(actor) is Robot:
                  self.actorGraphics[key] = self.canvas.create_polygon(self.translatedTrianglePoints[0][0],
                                                                       self.translatedTrianglePoints[0][1],
@@ -136,12 +141,14 @@ class Graphics:
                                                                       self.translatedTrianglePoints[2][1],
                                                                       fill="blue",
                                                                       tags=('projectile', key))
-        
-    def drawActors(self):
-        '''
-        Does the transformations and logic needed to draw all the actors to the screen
-        '''
-        pass
+        # now you can assume that key is in actorGraphics dict
+        actorid = self.actorGraphics[key]
+        self.canvas.coords(actorid, self.translatedTrianglePoints[0][0],
+                            self.translatedTrianglePoints[0][1],
+                            self.translatedTrianglePoints[1][0],
+                            self.translatedTrianglePoints[1][1],
+                            self.translatedTrianglePoints[2][0],
+                            self.translatedTrianglePoints[2][1]) 
             
 
     def update(self):
@@ -158,8 +165,8 @@ class Graphics:
             self.tk_root.quit()
 
             # print winner
+            var = input("A winner is " + list(self.board.actors.keys())[0])
             print("A winner is " + list(self.board.actors.keys())[0])
-
             # exit
             return
 
@@ -171,40 +178,7 @@ class Graphics:
                 self.canvas.delete(key)
         
         for key in self.board.actors:
-            # redraw all robots
-            actor = self.board.actors[key]
-            actorid = self.actorGraphics[key]
-            
-            if type(actor) is Robot:
-                #scale the points of the triangle shape to the size of the tile
-                for i in range(3):
-                    for j in range(2):
-                        self.scaledTrianglePoints[i][j] = Graphics.ROBOT_TRIANGLE_POINTS[i][j] * Graphics.TILE_SIZE
-            elif type(actor) is Projectile:
-                #scale the points of the triangle shape to the size of the tile
-                for i in range(3):
-                    for j in range(2):
-                        self.scaledTrianglePoints[i][j] = Graphics.PROJECTILE_TRIANGLE_POINTS[i][j] * Graphics.TILE_SIZE
-            else:
-                continue
-            
-            #rotate the points of the triangle shape to the correct orientation
-            #so this loop does nothing
-            for i in range(3):
-                self.rotatedTrianglePoints[i][0] = self.scaledTrianglePoints[i][0] * cos(radians(actor.rotation)) - self.scaledTrianglePoints[i][1] * sin(radians(actor.rotation))
-                self.rotatedTrianglePoints[i][1] = self.scaledTrianglePoints[i][0] * sin(radians(actor.rotation)) + self.scaledTrianglePoints[i][1] * cos(radians(actor.rotation))
-                
-            #translate the points of the triangle    
-            for i in range(3):
-                self.translatedTrianglePoints[i][0] = self.rotatedTrianglePoints[i][0] + Graphics.TILE_SIZE * (self.trianglePointsOffset[0] + actor.xPosition)
-                self.translatedTrianglePoints[i][1] = self.rotatedTrianglePoints[i][1] + Graphics.TILE_SIZE * (self.trianglePointsOffset[1] + actor.yPosition)
-            
-            self.canvas.coords(actorid, self.translatedTrianglePoints[0][0],
-                                        self.translatedTrianglePoints[0][1],
-                                        self.translatedTrianglePoints[1][0],
-                                        self.translatedTrianglePoints[1][1],
-                                        self.translatedTrianglePoints[2][0],
-                                        self.translatedTrianglePoints[2][1])   
+           self.drawActor(key)
         
         # reschedule update
         self.tk_root.after(self.delay, self.update)
