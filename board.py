@@ -23,19 +23,19 @@ class Board:
 	If BOARD_SIZE is 0, the board is unbounded.
 	'''
 	
-	robots = {}
+	actors = {}
 	'''
-	A dict containing the active robots on the board.
+	A dict containing the active actors on the board.
 	'''
 
 	destroyed = {}
 	'''
-	A dict for stashing destroyed robots.
+	A dict for stashing destroyed actors.
 	'''
 	
 	def __init__(self, scripts):
 		'''
-		Initializes robot.Robots to add to Board
+		Initializes robot.actors to add to Board
 		
 		@param scripts: function pointers to the scripts which define the robot behaviors.
 		One robot will be created for each script provided.
@@ -45,38 +45,52 @@ class Board:
 		
 		for i in range(len(scripts)):
 			robotName = "Robot_" + str(i)
-			self.robots[robotName] = robot.Robot(5, 5, 0, scripts[i], robotName)
+			self.actors[robotName] = robot.Robot(5, 5, 0, scripts[i], robotName)
 
 	def update(self):
 		'''
-		Updates the positions of all robots and performs all other simulation logic.
+		Updates the positions of all actors and performs all other simulation logic.
 		'''
 		
 		# make a copy of the list of keys so python doesn't freak out if a robot gets deleted
-		keys = list(self.robots.keys())
+		keys = list(self.actors.keys())
 
 		# shuffle list for random turn order
 		shuffle(keys)
 
 		for key in keys:
 
-			# double check that robots[key] has not been destroyed
-			if key not in self.robots:
+			# double check that actors[key] has not been destroyed
+			if key not in self.actors:
 				continue
 
 			# Have robot act
-			self.robots[key].takeAction(self)
+			self.actors[key].takeAction(self)
 
 			# check to see if any robot has been destroyed
-			keys2 = list(self.robots.keys())
+			keys2 = list(self.actors.keys())
 			for key2 in keys2:
 
-				if self.robots[key2].health == 0:
+				if self.actors[key2].health == 0:
 
-					print(self.robots[key2], " destroyed")
+					print(self.actors[key2], " destroyed")
 
 					# stash destroyed robot
-					self.destroyed[key2] = self.robots[key2]
+					self.destroyed[key2] = self.actors[key2]
 
 					# remove destroyed robot from robot list
-					del self.robots[key2]
+					del self.actors[key2]
+
+	def occupied(self, x, y):
+		'''
+		Returns true is board[x, y] is occupied.
+
+		@returns true if there is an actor at coordinates (x,y).
+		'''
+
+		for key in self.actors:
+			actor = self.actors[key]
+			if x == actor.x and y == actor.y:
+				return True
+
+		return False

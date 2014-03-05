@@ -40,7 +40,7 @@ class Robot(Actor):
 		
 		@param name: The name of the robot. If no name is provided a unique, random name will be provided.
 
-		@param health: The starting heald of the robot. Defaults to Robot::DEFAULT_HEALTH
+		@param health: The starting health of the robot. Defaults to Robot::DEFAULT_HEALTH
 		'''
 		
 		# set parameter values
