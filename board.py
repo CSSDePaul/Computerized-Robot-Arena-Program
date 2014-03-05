@@ -75,18 +75,19 @@ class Board:
 
 			# Have robot act
 			self.actors[key].takeAction(self)
-			'''
+			
 			didCollide = 0;
 			
 			for key2 in self.actors:
 				if (self.actors[key2].xPosition == self.actors[key].xPosition and 
-					self.actors[key2].yPosition == self.actors[key].yPosition):
+					self.actors[key2].yPosition == self.actors[key].yPosition and 
+					self.actors[key2] != self.actors[key]):
 					didCollide = 1;
 					self.actors[key2].health -= 1
 			
 			if (didCollide):
 				self.actors[key].health -= 1
-			'''															
+																	
 
 			# check to see if any robot has been destroyed
 			keys2 = list(self.actors.keys())
