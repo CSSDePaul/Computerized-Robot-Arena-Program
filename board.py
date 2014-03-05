@@ -52,12 +52,7 @@ class Board:
 			
 			print("initializing " + robotName)
 			
-			self.actors[robotName] = robot.Robot(5+i, 5+i, 0, scripts[i], robotName)
-		
-		self.actors["Projectile_0"] = projectile.Projectile(0, 0, 0,"Projectile_0")
-		self.actors["Projectile_1"] = projectile.Projectile(0, 1, 90,"Projectile_1")
-		self.actors["Projectile_1"] = projectile.Projectile(0, 15, 90,"Projectile_1")
-			
+			self.actors[robotName] = robot.Robot(5+2*i, 5+2*i, 0, scripts[i], robotName)			
 
 	def update(self):
 		'''
@@ -80,6 +75,18 @@ class Board:
 
 			# Have robot act
 			self.actors[key].takeAction(self)
+			'''
+			didCollide = 0;
+			
+			for key2 in self.actors:
+				if (self.actors[key2].xPosition == self.actors[key].xPosition and 
+					self.actors[key2].yPosition == self.actors[key].yPosition):
+					didCollide = 1;
+					self.actors[key2].health -= 1
+			
+			if (didCollide):
+				self.actors[key].health -= 1
+			'''															
 
 			# check to see if any robot has been destroyed
 			keys2 = list(self.actors.keys())
