@@ -59,11 +59,11 @@ class Projectile(Actor):
         if board.BOARD_SIZE > 0:
             # if the projectile exits the board, flag it for destruction
             if newX < 0 or newX >= board.BOARD_SIZE:
-                health = 0;
+                self.health = 0;
                 print("x out of bounds")
                 return;   
             if newY < 0 or newY >= board.BOARD_SIZE:
-                health = 0;
+                self.health = 0;
                 print("y out of bounds")
                 return;
             

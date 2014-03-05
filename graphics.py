@@ -158,12 +158,17 @@ class Graphics:
             self.tk_root.quit()
 
             # print winner
-            print("A winner is " + list(self.board.robots.keys())[0])
+            print("A winner is " + list(self.board.actors.keys())[0])
 
             # exit
             return
 
         self.board.update();
+        
+        for key in self.board.destroyed:
+            if self.actorGraphics.get(key) != None:
+                del self.actorGraphics[key];
+                self.canvas.delete(key)
         
         for key in self.board.actors:
             # redraw all robots
@@ -199,7 +204,7 @@ class Graphics:
                                         self.translatedTrianglePoints[1][0],
                                         self.translatedTrianglePoints[1][1],
                                         self.translatedTrianglePoints[2][0],
-                                        self.translatedTrianglePoints[2][1])                     
+                                        self.translatedTrianglePoints[2][1])   
         
         # reschedule update
         self.tk_root.after(self.delay, self.update)

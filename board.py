@@ -82,6 +82,7 @@ class Board:
 			for key2 in keys2:
 
 				# health == 0 is used a general flag for destroying an actor
+				print(self.actors[key2].health)
 				if self.actors[key2].health <= 0:
 
 					print(self.actors[key2], " destroyed")
