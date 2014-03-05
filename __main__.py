@@ -125,7 +125,7 @@ USAGE
         board = Board([script1, script2])
 
         # instantiate Graphics object
-        display = Graphics(board, 250)
+        display = Graphics(board, 2500)
 
         # start simulation
         display.start()
