@@ -158,7 +158,7 @@ class Graphics:
         Performs the logic for determining when the game ends.
         '''
         
-        if (len(self.board.actors) <= 1):
+        if (len(self.board.getRobots()) <= 1):
             # if 1 or 0 robots left, end game
 
             # end tkinter loop

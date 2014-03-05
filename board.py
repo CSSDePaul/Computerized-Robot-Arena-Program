@@ -130,3 +130,29 @@ class Board:
 		# spawn projectile
 		newProjectile = projectile.Projectile(x, y, rotation)
 		self.actors[newProjectile.name] = newProjectile;
+		
+	def getRobots(self):
+		'''
+		Returns a dict containing only the robots on the board.
+		'''
+		
+		result = {}
+		
+		for key in self.actors:
+			if (isinstance(self.actors[key], robot.Robot)):
+				result[key] = self.actors[key]
+				
+		return result
+	
+	def getProjectiles(self):
+		'''
+		Returns a dict containing only the robots on the board.
+		'''
+		
+		result = {}
+		
+		for key in self.actors:
+			if (isinstance(self.actors[key], projectile.Projectile)):
+				result[key] = self.actors[key]
+				
+		return result
