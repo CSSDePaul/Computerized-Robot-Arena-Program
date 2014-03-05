@@ -6,6 +6,8 @@ Created on Mar 1, 2014
 
 from actor import Actor
 
+from math import cos, sin, radians
+
 class Projectile(Actor):
     '''
     A class representing a basic projectile on the board.
@@ -33,12 +35,15 @@ class Projectile(Actor):
         self.xPosition = x
         self.yPosition = y
         self.rotation = theta
-        self.health = STARTING_HEALTH
+        self.health = Projectile.STARTING_HEALTH
         
         # name is the default string of the object,
         # which includes the memory address,
         # guaranteeing that the string is unique.
-        self.name = id(self);
+        if name == None:
+            self.name = id(self);
+        else:
+            self.name = name
         
     def takeAction(self, board):
         '''
@@ -46,7 +51,7 @@ class Projectile(Actor):
         If it runs into a wall, it will destroy itself
         
         @param board: A reference to the board object. This is used for checking bounds and collisions.
-        '''
+        '''        
         newX = self.xPosition + cos(radians(self.rotation))
         newY = self.yPosition + sin(radians(self.rotation))
         
@@ -55,9 +60,11 @@ class Projectile(Actor):
             # if the projectile exits the board, flag it for destruction
             if newX < 0 or newX >= board.BOARD_SIZE:
                 health = 0;
+                print("x out of bounds")
                 return;   
             if newY < 0 or newY >= board.BOARD_SIZE:
                 health = 0;
+                print("y out of bounds")
                 return;
             
         # update position

@@ -19,7 +19,7 @@ class Actor:
 	
 	Measured in degrees (to allow for integral values),
 	0 degrees faces positive x direction,
-	rotation is anti-clockwise (maybe).
+	rotation is clockwise (maybe).
 	'''
 	
 	name = None

@@ -2,6 +2,10 @@ import robot
 '''
 provides access to robot constructor.
 '''
+import projectile
+'''
+provides access to projectile constructor.
+'''
 
 from random import shuffle
 '''
@@ -16,7 +20,7 @@ class Board:
 	and performs the logic for updating the board each tick.
 	'''
 	
-	BOARD_SIZE = 10
+	BOARD_SIZE = 20
 	'''
 	The size of the board, specifically the number of tiles on the side of a square board.
 	
@@ -43,9 +47,13 @@ class Board:
 		
 		print("initializing board")
 		
-		for i in range(len(scripts)):
+		'''for i in range(len(scripts)):
 			robotName = "Robot_" + str(i)
-			self.actors[robotName] = robot.Robot(5, 5, 0, scripts[i], robotName)
+			self.actors[robotName] = robot.Robot(5+i, 5+i, 0, scripts[i], robotName)'''
+		
+		self.actors["Projectile_0"] = projectile.Projectile(0, 0, 0,"Projectile_0")
+		self.actors["Projectile_1"] = projectile.Projectile(0, 1, 90,"Projectile_1")
+			
 
 	def update(self):
 		'''
@@ -54,7 +62,7 @@ class Board:
 		
 		# make a copy of the list of keys so python doesn't freak out if a robot gets deleted
 		keys = list(self.actors.keys())
-
+		
 		# shuffle list for random turn order
 		# chosen so that turn order is not predictably in order to simulate all 
 		# action happening concurrently on average
