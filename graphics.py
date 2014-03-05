@@ -19,20 +19,30 @@ class Graphics:
     Size of tiles in the grid. Specifically, the length in pixels of the sides of the square tiles.
     '''
     
-    TRIANGLE_POINTS = ((.577, 0), (-.289, -.5), (-.289, .5))
+    #TRIANGLE_POINTS = ((.577, 0), (-.289, -.5), (-.289, .5))
     '''
-    Object coordinates for a scalene triangle with a circumcenter at the origin, pointing at the positive x direction.
+    Object coordinates for an equilateral triangle with a circumcenter at the origin, pointing at the positive x direction.
+    '''
+    
+    TRIANGLE_POINTS = ((.5, 0), (-.5, -.4), (-.5, .4))
+    '''
+    Object coordinates for a scalene triangle around the origin, pointing at the positive x direction.
     '''
     
     scaledTrianglePoints = [[0,0],[0,0],[0,0]]
     '''
-    Scaled object coordinates for a scalene triangle with a circumcenter at the origin, pointing at the positive x direction.
+    Scaled object coordinates for the triangle with a circumcenter at the origin, pointing at the positive x direction.
     '''
     
-    trianglePointsOffset = (.423, .5)
+    #trianglePointsOffset = (.423, .5)
     '''
-    Offset of the circumcenter of the triangle from the top left (least x and least y) corner of the tile it is in.
+    Offset of the circumcenter of the equilateral triangle from the top left (least x and least y) corner of the tile it is in.
     The tip of the triangle is touching the positive x side of the tile on the right side.
+    '''
+    
+    trianglePointsOffset = (.5, .5)
+    '''
+    Offset of the center of the tile from the top left (least x and least y) corner of the tile.
     '''
     
     rotatedTrianglePoints = [[0,0],[0,0],[0,0]]
