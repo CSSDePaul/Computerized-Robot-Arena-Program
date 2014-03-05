@@ -6,7 +6,7 @@ from randomScript import randomScript # shitty hard-coded include for testing
 def main():
 	
 	# create list of behaviors
-	behaviors = [ randomScript() ]
+	behaviors = [ randomScript(), randomScript() ]
 	
 	# instantiate Board object
 	gameBoard = Board(behaviors)

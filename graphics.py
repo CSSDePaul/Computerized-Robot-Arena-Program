@@ -85,8 +85,8 @@ class Graphics:
             #currently by default the triangle is in the correct orientation
             #so this loop does nothing
             for i in range(3):
-                self.rotatedTrianglePoints[i][0] = self.scaledTrianglePoints[i][0] * cos(radians(robot.thetaPosition)) - self.scaledTrianglePoints[i][1] * sin(radians(robot.thetaPosition))
-                self.rotatedTrianglePoints[i][1] = self.scaledTrianglePoints[i][0] * sin(radians(robot.thetaPosition)) + self.scaledTrianglePoints[i][1] * cos(radians(robot.thetaPosition))
+                self.rotatedTrianglePoints[i][0] = self.scaledTrianglePoints[i][0] * cos(radians(robot.rotation)) - self.scaledTrianglePoints[i][1] * sin(radians(robot.rotation))
+                self.rotatedTrianglePoints[i][1] = self.scaledTrianglePoints[i][0] * sin(radians(robot.rotation)) + self.scaledTrianglePoints[i][1] * cos(radians(robot.rotation))
                 
             #translate the points of the triangle    
             for i in range(3):
@@ -138,8 +138,8 @@ class Graphics:
             #currently by default the triangle is in the correct orientation
             #so this loop does nothing
             for i in range(3):
-                self.rotatedTrianglePoints[i][0] = self.scaledTrianglePoints[i][0] * cos(radians(robot.thetaPosition)) - self.scaledTrianglePoints[i][1] * sin(radians(robot.thetaPosition))
-                self.rotatedTrianglePoints[i][1] = self.scaledTrianglePoints[i][0] * sin(radians(robot.thetaPosition)) + self.scaledTrianglePoints[i][1] * cos(radians(robot.thetaPosition))
+                self.rotatedTrianglePoints[i][0] = self.scaledTrianglePoints[i][0] * cos(radians(robot.rotation)) - self.scaledTrianglePoints[i][1] * sin(radians(robot.rotation))
+                self.rotatedTrianglePoints[i][1] = self.scaledTrianglePoints[i][0] * sin(radians(robot.rotation)) + self.scaledTrianglePoints[i][1] * cos(radians(robot.rotation))
             
                 
             #translate the points of the triangle    

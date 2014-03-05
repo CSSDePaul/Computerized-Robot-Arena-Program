@@ -1,6 +1,8 @@
+from actor import Actor
+
 from math import cos, sin, radians
 
-class Robot:
+class Robot(Actor):
 	'''
 	The parent class for all robot scripts.
 
@@ -13,43 +15,10 @@ class Robot:
 	'''
 	The starting health value for robots on the field.
 	'''
-	
-	xPosition = 0
-	'''
-	The x coordinate of the robot on the game board.Board.
-	'''
-	
-	yPosition = 0
-	'''
-	The y coordinate of the robot on the game board.Board.
-	'''
 
 	health = 0
 	'''
 	The amount of health the robot has. Defaults to 
-	'''
-	
-	thetaPosition = 0
-	'''
-	The orientation (rotation) of the robot.
-	
-	Measured in degrees (to allow for integral values),
-	0 degrees faces positive x direction,
-	rotation is anti-clockwise (maybe).
-	'''
-	
-	name = None
-	'''
-	A string representing the name of the robot.
-	
-	The string must be unique within the game simulation to avoid collisions.
-	If no string is provided to the constructor,
-	one that is guaranteed to be unique will be generated. 
-	'''
-	
-	image = None
-	'''
-	The image to use for graphical representations of the robot.
 	'''
 	
 	script = None
@@ -77,7 +46,7 @@ class Robot:
 		# set parameter values
 		self.xPosition = x
 		self.yPosition = y
-		self.thetaPosition = theta
+		self.rotation = theta
 		self.script = script
 		self.health = health
 		
@@ -108,13 +77,13 @@ class Robot:
 		'''
 		Rotate the robot 90 degrees to the left.
 		'''
-		self.thetaPosition = (self.thetaPosition + 90) % 360
+		self.rotation = (self.rotation + 90) % 360
 	
 	def turnRight(self, board):
 		'''
 		Rotate the robot 90 degrees to the right
 		'''
-		self.thetaPosition = (self.thetaPosition - 90) % 360
+		self.rotation = (self.rotation - 90) % 360
 
 	def moveForward(self, board):
 		'''
@@ -123,8 +92,8 @@ class Robot:
 		
 		@param board: A reference to the board object. This is used for checking bounds and collisions.
 		'''
-		newX = self.xPosition + cos(radians(self.thetaPosition))
-		newY = self.yPosition + sin(radians(self.thetaPosition))
+		newX = self.xPosition + cos(radians(self.rotation))
+		newY = self.yPosition + sin(radians(self.rotation))
 		
 		# if board is infinite, no need to check against board.Board bounds
 		if board.BOARD_SIZE > 0:
@@ -146,7 +115,7 @@ class Robot:
 		return {
 				"x":self.xPosition,
 				"y": self.yPosition,
-				"theta": self.thetaPosition
+				"theta": self.rotation
 				}
 
 	# Returns the string representation of the Robot (called whenever object is converted to string)
@@ -156,4 +125,4 @@ class Robot:
 		Returns the string representation of the Robot
 		'''
 		return "Robot %s at (%i, %i) facing %i degrees" % (
-				self.name, self.xPosition, self.yPosition, self.thetaPosition)
+				self.name, self.xPosition, self.yPosition, self.rotation)
