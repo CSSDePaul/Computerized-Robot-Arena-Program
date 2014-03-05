@@ -73,8 +73,8 @@ class Graphics:
         self.canvas.grid(column=0, row=0, sticky=(N, W, E, S))
         
         # draw robots on canvas
-        for key in self.board.robots:
-            robot = self.board.robots[key]
+        for key in self.board.actors:
+            robot = self.board.actors[key]
             
             #scale the points of the triangle shape to the size of the tile
             for i in range(3):
@@ -109,7 +109,7 @@ class Graphics:
         Performs the logic for determining when the game ends.
         '''
         
-        if (len(self.board.robots) <= 1):
+        if (len(self.board.actors) <= 1):
             # if 1 or 0 robots left, end game
 
             # end tkinter loop
@@ -124,9 +124,9 @@ class Graphics:
 
         self.board.update();
         
-        for key in self.board.robots:
+        for key in self.board.actors:
             # redraw all robots
-            robot = self.board.robots[key]
+            robot = self.board.actors[key]
             robotid = self.robotGraphics[key]
             
             #scale the points of the triangle shape to the size of the tile
