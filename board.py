@@ -103,6 +103,9 @@ class Board:
 
 					# remove destroyed robot from robot list
 					del self.actors[key2]
+					
+					if (len(self.actors) == 1):
+						return
 
 	def occupied(self, x, y):
 		'''
