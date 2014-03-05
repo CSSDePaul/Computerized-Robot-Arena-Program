@@ -47,12 +47,12 @@ class Board:
 		
 		print("initializing board")
 		
-		'''for i in range(len(scripts)):
+		for i in range(len(scripts)):
 			robotName = "Robot_" + str(i)
-			self.actors[robotName] = robot.Robot(5+i, 5+i, 0, scripts[i], robotName)'''
+			self.actors[robotName] = robot.Robot(5+i, 5+i, 0, scripts[i], robotName)
 		
-		self.actors["Projectile_0"] = projectile.Projectile(0, 0, 0,"Projectile_0")
-		self.actors["Projectile_1"] = projectile.Projectile(0, 1, 90,"Projectile_1")
+		#self.actors["Projectile_0"] = projectile.Projectile(0, 0, 0,"Projectile_0")
+		#self.actors["Projectile_1"] = projectile.Projectile(0, 1, 90,"Projectile_1")
 			
 
 	def update(self):
@@ -82,7 +82,6 @@ class Board:
 			for key2 in keys2:
 
 				# health == 0 is used a general flag for destroying an actor
-				print(self.actors[key2].health)
 				if self.actors[key2].health <= 0:
 
 					print(self.actors[key2], " destroyed")
