@@ -9,7 +9,7 @@ from math import cos, sin, radians
 
 class Graphics:
     '''
-    A wrapper class to perform all graphical functions and run the main loop of the simulation.
+    A wrapper class to perform all graphical functions and run the __main__ loop of the simulation.
     
     An object representing the board is provided, and a delay is given to 
     '''
@@ -170,7 +170,7 @@ class Graphics:
         
     def start(self):
         '''
-        Starts the tkinter's main loop and schedules the first update event.
+        Starts the tkinter's __main__ loop and schedules the first update event.
         '''
         self.tk_root.after(self.delay, self.update)
         self.tk_root.mainloop()
