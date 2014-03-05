@@ -63,11 +63,16 @@ class Robot(Actor):
 		
 		# call behavior script
 		# behavior script returns function pointer for action to be performed
-		action = self.script.decideAction(self, board)
+		action = self.script.decideAction(self, board, list(Robot.ACTIONS.keys()))
 		
-		print("action taken by %s is %s" % (self.name, str(action)))
-		
-		action(self, board)
+		if (action in Robot.ACTIONS.keys()):
+			print("action taken by %s is %s" % (self.name, str(action)))
+			
+			action = Robot.ACTIONS[action]
+			
+			action(self, board)
+		else:
+			pass
 
 	def turnLeft(self, board):
 		'''
@@ -121,3 +126,8 @@ class Robot(Actor):
 		# update position
 		self.xPosition = newX
 		self.yPosition = newY
+	
+	ACTIONS = {	'MOVE_FORWARD': moveForward,
+				'TURN_RIGHT': turnRight,
+				'TURN_LEFT': turnLeft,
+				'SHOOT_PROJECTILE': shootProjectile }
