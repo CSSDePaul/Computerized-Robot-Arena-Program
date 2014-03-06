@@ -63,7 +63,7 @@ class Robot(Actor):
 		
 		# call behavior script
 		# behavior script returns function pointer for action to be performed
-		action = self.script.decideAction(self, board, list(Robot.ACTIONS.keys()))
+		action = self.script.decideAction(self, board.getcopy(), list(Robot.ACTIONS.keys()))
 		
 		if (action in Robot.ACTIONS.keys()):
 			print("action taken by %s is %s" % (self.name, str(action)))

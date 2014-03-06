@@ -12,6 +12,11 @@ from random import shuffle
 Import shuffle function to randomize turn order.
 '''
 
+from copy import deepcopy
+"""
+Import deepcopy function to allow safe board-state passing.
+"""
+
 class Board:
 	'''
 	A representation of the game board.
@@ -26,17 +31,7 @@ class Board:
 	
 	If BOARD_SIZE is 0, the board is unbounded.
 	'''
-	
-	actors = {}
-	'''
-	A dict containing the active actors on the board.
-	'''
-
-	destroyed = {}
-	'''
-	A dict for stashing destroyed actors.
-	'''
-	
+		
 	def __init__(self, scripts):
 		'''
 		Initializes robot.actors to add to Board
@@ -44,7 +39,17 @@ class Board:
 		@param scripts: function pointers to the scripts which define the robot behaviors.
 		One robot will be created for each script provided.
 		'''
-		
+			
+		self.actors = {}
+		'''
+		An instance-variable dict containing the active actors on the board.
+		'''
+
+		self.destroyed = {}
+		'''
+		An instance-variable dict for stashing destroyed actors.
+		'''
+
 		print("initializing board")
 		
 		for i in range(len(scripts)):
@@ -154,7 +159,7 @@ class Board:
 	
 	def getProjectiles(self):
 		'''
-		Returns a dict containing only the robots on the board.
+		Returns a dict containing only the projectiles on the board.
 		'''
 		
 		result = {}
@@ -164,3 +169,15 @@ class Board:
 				result[key] = self.actors[key]
 
 		return result
+		
+	def getcopy(self):
+		"""
+		Returns a deep copy of the board to be passed to a script.
+		Everything is the same except that robot scripts have been removed.
+		"""
+		boardCopy = deepcopy(self)
+		robots = boardCopy.getRobots() #references to the robot copies
+		print(robots)
+		for robotkey in robots:
+			boardCopy.actors[robotkey].script = None 
+		return boardCopy
