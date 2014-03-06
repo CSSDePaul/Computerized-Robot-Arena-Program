@@ -180,7 +180,6 @@ class Board:
 		"""
 		boardCopy = deepcopy(self)
 		robots = boardCopy.getRobots() #references to the robot copies
-		print(robots)
 		for robotkey in robots:
 			boardCopy.actors[robotkey].script = None 
 		return boardCopy
