@@ -31,7 +31,17 @@ class Board:
 	
 	If BOARD_SIZE is 0, the board is unbounded.
 	'''
-		
+
+	actors = {}
+	'''
+	An instance-variable dict containing the active actors on the board.
+	'''
+
+	destroyed = {}
+	'''
+	An instance-variable dict for stashing destroyed actors.
+	'''
+
 	def __init__(self, scripts):
 		'''
 		Initializes robot.actors to add to Board
@@ -39,16 +49,10 @@ class Board:
 		@param scripts: function pointers to the scripts which define the robot behaviors.
 		One robot will be created for each script provided.
 		'''
-			
+		
+		#initialization of instance variables (necessary for copying purposes)
 		self.actors = {}
-		'''
-		An instance-variable dict containing the active actors on the board.
-		'''
-
-		self.destroyed = {}
-		'''
-		An instance-variable dict for stashing destroyed actors.
-		'''
+		self.destroyed = {} 
 
 		print("initializing board")
 		
