@@ -85,7 +85,8 @@ class Graphics:
         # initialize tk_root
         self.tk_root = Tk()
         
-        self.canvas = Canvas(self.tk_root)
+        #set canvas width and height to the number of tiles times the number of pixels per tile
+        self.canvas = Canvas(self.tk_root, width=board.BOARD_SIZE * self.TILE_SIZE, height=board.BOARD_SIZE * self.TILE_SIZE)#Canvas(self.tk_root)
         self.canvas.grid(column=0, row=0, sticky=(N, W, E, S))
         
         for key in self.board.actors:
@@ -162,7 +163,7 @@ class Graphics:
             # if 1 or 0 robots left, end game
 
             # end tkinter loop
-            self.tk_root.quit()
+            # self.tk_root.quit()
 
             # print winner
             print("A winner is " + list(self.board.actors.keys())[0])
