@@ -9,7 +9,7 @@ from math import cos, sin, radians
 math module for use in forwardCoords()
 '''
 
-import actor.Actor as Actor
+from actor import Actor
 '''
 Actor class from actor module for use in manhattanDistance()
 '''
@@ -22,7 +22,10 @@ def forwardCoords(x, y, rotation, board = None):
     @param y: The current y coordinate.
     @param rotation: The current rotation.
     @param board: The board being considered.
-    This is optional, if it is not provided the new position will not be checked to see if they are out of bounds (even if they are negative!). 
+    This is optional, if it is not provided the new position will not be checked to see if they are out of bounds (even if they are negative!).
+    
+    @return: Returns a tuple with the new coordinates. If a value is provided for board, the new position will be checked against the bounds of the board,
+    and if it is out of bound the function will return None.
     '''
     
     # calculate the new x and y coordinates using mathemagic
@@ -33,7 +36,7 @@ def forwardCoords(x, y, rotation, board = None):
     
     # if board exists, check against bounds
     # if out of bounds, set returnval to None
-    if board != None and (newX < 0 or newY < 0 or newX >= board.BOARD_SIZE or newY >= board.BOARD_SIZE):
+    if not (board is None) and (newX < 0 or newY < 0 or newX >= board.BOARD_SIZE or newY >= board.BOARD_SIZE):
         returnval = None
     
     return returnval
