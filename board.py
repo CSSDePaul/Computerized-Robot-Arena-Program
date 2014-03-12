@@ -124,7 +124,7 @@ class Board:
 		'''
 		for key in self.actors:
 			actor = self.actors[key]
-			if x == actor.x and y == actor.y:
+			if x == actor.xPosition and y == actor.yPosition:
 				return True
 
 		return False
