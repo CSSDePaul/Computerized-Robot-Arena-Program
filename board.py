@@ -83,20 +83,7 @@ class Board:
 				continue
 
 			# Have robot act
-			self.actors[key].takeAction(self)
-			
-			didCollide = False;
-			
-			for key2 in self.actors:
-				if (self.actors[key2].xPosition == self.actors[key].xPosition and 
-					self.actors[key2].yPosition == self.actors[key].yPosition and 
-					self.actors[key2] != self.actors[key]):
-					didCollide = True;
-					self.actors[key2].health -= 1
-			
-			if (didCollide):
-				self.actors[key].health -= 1
-																	
+			self.actors[key].takeAction(self)										
 
 			# check to see if any robot has been destroyed
 			keys2 = list(self.actors.keys())
@@ -112,22 +99,19 @@ class Board:
 
 					# remove destroyed robot from robot list
 					del self.actors[key2]
-					
-					if (len(self.actors) == 1):
-						return
 
 	def occupied(self, x, y):
 		'''
-		Returns true is board[x, y] is occupied.
+		Returns the actor occupying (x, y), returns None otherwise
 
-		@returns true if there is an actor at coordinates (x,y).
+		@returns the actor occupying (x, y), returns None otherwise.
 		'''
 		for key in self.actors:
 			actor = self.actors[key]
-			if x == actor.x and y == actor.y:
-				return True
+			if x == actor.xPosition and y == actor.yPosition:
+				return self.actors[key]
 
-		return False
+		return None
 	
 	def spawnProjectile(self, x, y, rotation):
 		'''

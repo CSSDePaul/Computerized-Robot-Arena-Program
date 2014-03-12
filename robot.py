@@ -1,7 +1,8 @@
 from actor import Actor
-import projectile
 
 from math import cos, sin, radians
+
+from utility import forwardCoords
 
 class Robot(Actor):
 	'''
@@ -109,19 +110,26 @@ class Robot(Actor):
 		
 		@param board: A reference to the board object. This is used for checking bounds and collisions.
 		'''
-		newX = self.xPosition + cos(radians(self.rotation))
-		newY = self.yPosition + sin(radians(self.rotation))
 		
-		# if board is infinite, no need to check against board.Board bounds
-		if board.BOARD_SIZE > 0:
-			if newX < 0 or newX >= board.BOARD_SIZE:
-				return
-			if newY < 0 or newY >= board.BOARD_SIZE:
-				return
+		# get the coordinates in front of the robot
+		coords = forwardCoords(self.xPosition, self.yPosition, self.rotation, board)
+		
+		# if out of bounds, do nothing
+		if coords is None:
+			return
+		
+		# test for collisions
+		collidingActor = board.occupied(coords[0], coords[1])
+		if not (collidingActor is None):
 			
+			# if colliding with a robot, don't move and call board.collision()
+			if isinstance(collidingActor, Robot):
+				board.collision(self.name, collidingActor.name)
+				return
+		
 		# update position
-		self.xPosition = newX
-		self.yPosition = newY
+		self.xPosition = coords[0]
+		self.yPosition = coords[1]
 	
 	ACTIONS = {	'MOVE_FORWARD': moveForward,
 				'TURN_RIGHT': turnRight,

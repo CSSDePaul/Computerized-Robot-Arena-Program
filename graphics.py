@@ -150,7 +150,6 @@ class Graphics:
                             self.translatedTrianglePoints[2][0],
                             self.translatedTrianglePoints[2][1]) 
             
-
     def update(self):
         '''
         Updates the board, then redraws the board.
@@ -158,18 +157,41 @@ class Graphics:
         Performs the logic for determining when the game ends.
         '''
         
-        if (len(self.board.getRobots()) <= 1):
-            # if 1 or 0 robots left, end game
-
-            # end tkinter loop
-            self.tk_root.quit()
+        # =================
+        # END OF GAME LOGIC
+        # =================
+        
+        # if 1 or 0 robots left, end game
+        if len(self.board.getRobots()) == 1:
+            
+            # Only one robot left, that robot is the winner
+            # print out winner and exit
 
             # print winner
             print("A winner is " + list(self.board.actors.keys())[0])
+            
             # exit
             return
+        elif len(self.board.getRobots()) < 1:
+            
+            # no robots left,
+            # declare game a tie
+            
+            #print tie
+            print("The game is a tie, everyone is dead.")
+            
+            # exit
+            return
+        
+        # ============
+        # UPDATE BOARD
+        # ============
 
         self.board.update();
+        
+        # ======================
+        # CLEAR DESTROYED ACTORS
+        # ======================
         
         for key in self.board.destroyed:
             if self.actorGraphics.get(key) != None:
@@ -179,6 +201,10 @@ class Graphics:
                 
                 # delete stashed key
                 del self.actorGraphics[key];
+        
+        # ===============
+        # UPDATE GRAPHICS
+        # ===============
         
         for key in self.board.actors:
             self.drawActor(key)
