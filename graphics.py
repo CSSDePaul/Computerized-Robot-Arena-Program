@@ -165,8 +165,12 @@ class Graphics:
             # end tkinter loop
             # self.tk_root.quit()
 
-            # print winner
-            print("A winner is " + list(self.board.actors.keys())[0])
+            if (len(self.board.getRobots()) == 1):
+                # print winner
+                print("A winner is " + list(self.board.getRobots().keys())[0])
+            else:
+                #number of robots is 0 or negative. assume 0. it was a tie
+                print("It was a tie")
             # exit
             return
 
