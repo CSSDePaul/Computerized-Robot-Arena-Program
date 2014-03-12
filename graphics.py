@@ -124,7 +124,7 @@ class Graphics:
         #if already not in actorGraphics dict
         if self.actorGraphics.get(key) == None:
             if type(actor) is Robot:
-                 self.actorGraphics[key] = self.canvas.create_polygon(self.translatedTrianglePoints[0][0],
+                self.actorGraphics[key] = self.canvas.create_polygon(self.translatedTrianglePoints[0][0],
                                                                       self.translatedTrianglePoints[0][1],
                                                                       self.translatedTrianglePoints[1][0],
                                                                       self.translatedTrianglePoints[1][1],
@@ -133,7 +133,7 @@ class Graphics:
                                                                       fill="red",
                                                                       tags=('robot', key))
             elif type(actor) is Projectile:
-                 self.actorGraphics[key] = self.canvas.create_polygon(self.translatedTrianglePoints[0][0],
+                self.actorGraphics[key] = self.canvas.create_polygon(self.translatedTrianglePoints[0][0],
                                                                       self.translatedTrianglePoints[0][1],
                                                                       self.translatedTrianglePoints[1][0],
                                                                       self.translatedTrianglePoints[1][1],
@@ -158,7 +158,7 @@ class Graphics:
         Performs the logic for determining when the game ends.
         '''
         
-        if (len(self.board.actors) <= 1):
+        if (len(self.board.getRobots()) <= 1):
             # if 1 or 0 robots left, end game
 
             # end tkinter loop
@@ -173,11 +173,15 @@ class Graphics:
         
         for key in self.board.destroyed:
             if self.actorGraphics.get(key) != None:
+                
+                # delete graphics object using the stashed key
+                self.canvas.delete(self.actorGraphics[key])
+                
+                # delete stashed key
                 del self.actorGraphics[key];
-                self.canvas.delete(key)
         
         for key in self.board.actors:
-           self.drawActor(key)
+            self.drawActor(key)
         
         # reschedule update
         self.tk_root.after(self.delay, self.update)

@@ -32,12 +32,12 @@ class Board:
 	If BOARD_SIZE is 0, the board is unbounded.
 	'''
 
-	actors = {}
+	actors = None
 	'''
 	An instance-variable dict containing the active actors on the board.
 	'''
 
-	destroyed = {}
+	destroyed = None
 	'''
 	An instance-variable dict for stashing destroyed actors.
 	'''
