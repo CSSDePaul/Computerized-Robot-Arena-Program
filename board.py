@@ -61,7 +61,7 @@ class Board:
 			
 			print("initializing " + robotName)
 			
-			self.actors[robotName] = robot.Robot(5+2*i, 5+2*i, 0, scripts[i], robotName)			
+			self.actors[robotName] = robot.Robot(5+2*i, 5+10*i, 0, scripts[i], robotName)			
 
 	def update(self):
 		'''
@@ -85,13 +85,13 @@ class Board:
 			# Have robot act
 			self.actors[key].takeAction(self)
 			
-			didCollide = 0;
+			didCollide = False;
 			
 			for key2 in self.actors:
 				if (self.actors[key2].xPosition == self.actors[key].xPosition and 
 					self.actors[key2].yPosition == self.actors[key].yPosition and 
 					self.actors[key2] != self.actors[key]):
-					didCollide = 1;
+					didCollide = True;
 					self.actors[key2].health -= 1
 			
 			if (didCollide):
@@ -150,6 +150,22 @@ class Board:
 		# spawn projectile
 		newProjectile = projectile.Projectile(x, y, rotation)
 		self.actors[newProjectile.name] = newProjectile;
+
+	def collision(self, actor1, actor2, damage1 = 1, damage2 = 1):
+		'''
+		Simulates a collision between actor1 and actor2 by applying some amount of damage to them.
+		
+		Subtracts damage1 from actor1's health, and subtracts damage2 from actor2's health.
+		
+		@param actor1: The first actor in the collision, should be a key to the object in self.actors.
+		@param actor2: The second actor in the collision, should be a key to the object in self.actors.
+		@param damage1: The damage to be applied to actor1. Defaults to 1.
+		@param damage2: The damage to be applied to actor2. Defaults to 1.
+		'''
+		
+		# apply damage to robots
+		self.actors[actor1].health -= damage1
+		self.actors[actor2].health -= damage2
 		
 	def getRobots(self):
 		'''
