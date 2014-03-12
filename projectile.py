@@ -41,7 +41,7 @@ class Projectile(Actor):
         # which includes the memory address,
         # guaranteeing that the string is unique.
         if not name:
-            self.name = str(id(self));
+            self.name = "Projectile_" + str(id(self));
         else:
             self.name = name
         

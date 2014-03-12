@@ -62,5 +62,5 @@ class Actor:
 		'''
 		@return: The string representation of the Actor (called whenever object is converted to string)
 		'''
-		return "Robot %s at (%i, %i) facing %i degrees" % (
+		return "%s at (%i, %i) facing %i degrees" % (
 				self.name, self.xPosition, self.yPosition, self.rotation)
