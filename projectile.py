@@ -6,8 +6,6 @@ Created on Mar 1, 2014
 
 from actor import Actor
 
-from robot import Robot
-
 from utility import forwardCoords
 
 class Projectile(Actor):

@@ -4,7 +4,7 @@ Created on Feb 4, 2014
 @author: excaliburhissheath
 '''
 
-from tkinter import *
+from tkinter import Tk, Canvas, N, W, E, S
 from math import cos, sin, radians
 from robot import Robot
 from projectile import Projectile
