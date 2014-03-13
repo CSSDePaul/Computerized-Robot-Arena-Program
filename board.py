@@ -113,12 +113,19 @@ class Board:
 		@returns a list containing the names of the actors (keys in Board.actors) occupying (x, y). The list is empty if the space is empty.
 		'''
 		
+		# =======================================================
+		# iterate over the list of actors
+		# if the actor's coordinates match the given coordinates,
+		# append actor to the list of actors
+		# =======================================================
+		
 		actorsInSpace = []
 		
 		for key in self.actors:
 			actor = self.actors[key]
 			if x == actor.xPosition and y == actor.yPosition:
 				actorsInSpace.append(key)
+
 
 		return actorsInSpace
 	

@@ -81,13 +81,13 @@ class Robot(Actor):
 		'''
 		Rotate the robot 90 degrees to the left.
 		'''
-		self.rotation = (self.rotation + 90) % 360
+		self.rotation = (self.rotation - 90) % 360
 	
 	def turnRight(self, board):
 		'''
 		Rotate the robot 90 degrees to the right
 		'''
-		self.rotation = (self.rotation - 90) % 360
+		self.rotation = (self.rotation + 90) % 360
 		
 	def shootProjectile(self, board):
 		'''

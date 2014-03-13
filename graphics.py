@@ -91,7 +91,11 @@ class Graphics:
         # binds the exit method to the escape key
         self.tk_root.bind("<Escape>", self.exit) 
         
+        # initialize tk canvas object
         self.canvas = Canvas(self.tk_root)
+
+        #set canvas width and height to the number of tiles times the number of pixels per tile
+        self.canvas = Canvas(self.tk_root, width=board.BOARD_SIZE * self.TILE_SIZE, height=board.BOARD_SIZE * self.TILE_SIZE)#Canvas(self.tk_root)
         self.canvas.grid(column=0, row=0, sticky=(N, W, E, S))
         
         for key in self.board.actors:
@@ -177,8 +181,8 @@ class Graphics:
 
             # print winner
             print("A winner is " + list(self.board.getRobots().keys())[0])
-            
-            # exit
+
+            # exit without closing tk window
             return
         elif len(self.board.getRobots()) < 1:
             
@@ -188,7 +192,7 @@ class Graphics:
             #print tie
             print("The game is a tie, everyone is dead.")
             
-            # exit
+            # exit without closing tk window
             return
         
         # ============
