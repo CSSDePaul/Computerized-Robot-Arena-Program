@@ -23,11 +23,17 @@ class Board:
 	
 	Keeps a collection of the robots in play
 	and performs the logic for updating the board each tick.
+	
+	@note: For the sake of consistency and type safety, all references to actors passed into and out of the Board class
+	should be strings representing the name of the actor, and therefore the key of the actor in the Board.actors dict.
+	Methods of Board should always return the name, and should always take the name in as parameters when referencing actors.
 	'''
 	
-	BOARD_SIZE = 20
+	BOARD_SIZE = 10
 	'''
 	The size of the board, specifically the number of tiles on the side of a square board.
+	Actors on the board may have coordinates in the range of [0,BOARD_SIZE),
+	that is, 0 <= coord < BOARD_SIZE
 	
 	If BOARD_SIZE is 0, the board is unbounded.
 	'''
@@ -61,7 +67,7 @@ class Board:
 			
 			print("initializing " + robotName)
 			
-			self.actors[robotName] = robot.Robot(5+2*i, 5+10*i, 0, scripts[i], robotName)			
+			self.actors[robotName] = robot.Robot(4*i, 4*i, 0, scripts[i], robotName)			
 
 	def update(self):
 		'''
@@ -102,16 +108,19 @@ class Board:
 
 	def occupied(self, x, y):
 		'''
-		Returns the actor occupying (x, y), returns None otherwise
+		Returns the names of the actors occupying (x, y), returns None otherwise
 
-		@returns the actor occupying (x, y), returns None otherwise.
+		@returns a list containing the names of the actors (keys in Board.actors) occupying (x, y). The list is empty if the space is empty.
 		'''
+		
+		actorsInSpace = []
+		
 		for key in self.actors:
 			actor = self.actors[key]
 			if x == actor.xPosition and y == actor.yPosition:
-				return self.actors[key]
+				actorsInSpace.append(key)
 
-		return None
+		return actorsInSpace
 	
 	def spawnProjectile(self, x, y, rotation):
 		'''
@@ -146,6 +155,8 @@ class Board:
 		@param damage1: The damage to be applied to actor1. Defaults to 1.
 		@param damage2: The damage to be applied to actor2. Defaults to 1.
 		'''
+		
+		print ('collision between {} and {}'.format(actor1, actor2))
 		
 		# apply damage to robots
 		self.actors[actor1].health -= damage1

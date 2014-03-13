@@ -23,7 +23,7 @@ class Robot(Actor):
 	A function pointer to the script defining the behavior of the robot.
 	'''
 
-	def __init__(self, x, y, theta, script, name = None, health = DEFAULT_HEALTH):
+	def __init__(self, x, y, theta, script, name=None, health=DEFAULT_HEALTH):
 		'''
 		Constructor method.
 		
@@ -69,7 +69,7 @@ class Robot(Actor):
 		action = self.script.decideAction(selfcopy, boardcopy, list(Robot.ACTIONS.keys()))
 		
 		if (action in Robot.ACTIONS.keys()):
-			print("action taken by %s is %s" % (self.name, str(action)))
+			print("%s is going to %s" % (self.name, str(action)))
 			
 			action = Robot.ACTIONS[action]
 			
@@ -111,25 +111,55 @@ class Robot(Actor):
 		@param board: A reference to the board object. This is used for checking bounds and collisions.
 		'''
 		
+		print("%s is moving forward" % (self.name))
+
 		# get the coordinates in front of the robot
 		coords = forwardCoords(self.xPosition, self.yPosition, self.rotation, board)
-		
+
 		# if out of bounds, do nothing
 		if coords is None:
+			
+			# debugging output
+			print('{} is off the board'.format(self.name))
+			
+			# exit
 			return
 		
-		# test for collisions
-		collidingActor = board.occupied(coords[0], coords[1])
-		if not (collidingActor is None):
-			
-			# if colliding with a robot, don't move and call board.collision()
-			if isinstance(collidingActor, Robot):
-				board.collision(self.name, collidingActor.name)
-				return
+		# ===================
+		# TEST FOR COLLISIONS
+		# ===================
 		
-		# update position
-		self.xPosition = coords[0]
-		self.yPosition = coords[1]
+		# retrieve list of actors in new space
+		collidingActors = board.occupied(coords[0], coords[1])
+		
+		# if there are one or more actors in the new space
+		if len(collidingActors) > 0:
+			
+			# debugging output
+			print('actors in front of {}: {}'.format(self.name, str(collidingActors)))
+			
+			# iterate over actors in space
+			for actor in collidingActors:
+				
+				# debugging output
+				print(self.name + " to collide with actor " + actor)
+				
+				# if actor is robot, damage robot and destroy self
+				if actor in board.getRobots():
+					
+					# debugging output
+					print(self.name + " colliding with robot " + actor)
+					
+					# run collision logic
+					board.collision(self.name, actor)
+					
+					# exit without moving
+					return
+		
+		# no collisions, move to new coords
+		if (self.health > 0):
+			self.xPosition = coords[0]
+			self.yPosition = coords[1]
 	
 	ACTIONS = {	'MOVE_FORWARD': moveForward,
 				'TURN_RIGHT': turnRight,

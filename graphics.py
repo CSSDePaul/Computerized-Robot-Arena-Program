@@ -85,6 +85,12 @@ class Graphics:
         # initialize tk_root
         self.tk_root = Tk()
         
+        # DEBUGTASTIC CODE - binds the update method to escape for stepwise debugging
+#         self.tk_root.bind("<space>", self.update)
+        
+        # binds the exit method to the escape key
+        self.tk_root.bind("<Escape>", self.exit) 
+        
         self.canvas = Canvas(self.tk_root)
         self.canvas.grid(column=0, row=0, sticky=(N, W, E, S))
         
@@ -150,12 +156,14 @@ class Graphics:
                             self.translatedTrianglePoints[2][0],
                             self.translatedTrianglePoints[2][1]) 
             
-    def update(self):
+    def update(self, event = None):
         '''
         Updates the board, then redraws the board.
 
         Performs the logic for determining when the game ends.
         '''
+        
+        print('\nUPDATE BOARD WITH FULL LOGIC')
         
         # =================
         # END OF GAME LOGIC
@@ -168,7 +176,7 @@ class Graphics:
             # print out winner and exit
 
             # print winner
-            print("A winner is " + list(self.board.actors.keys())[0])
+            print("A winner is " + list(self.board.getRobots().keys())[0])
             
             # exit
             return
@@ -211,6 +219,13 @@ class Graphics:
         
         # reschedule update
         self.tk_root.after(self.delay, self.update)
+        
+    def exit(self, event = None):
+        '''
+        Ends the Tkinter main loop and exits the game.
+        '''
+        
+        self.tk_root.quit()
         
     def start(self):
         '''
