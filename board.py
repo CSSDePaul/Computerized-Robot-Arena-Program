@@ -199,9 +199,10 @@ class Board:
 		"""
 		Returns a deep copy of the board to be passed to a script.
 		Everything is the same except that robot scripts have been removed.
+		The script must be removed 
 		"""
-		boardCopy = deepcopy(self)
+		boardCopy = deepcopy(self) #returns a deep (recursive) copy of this board
 		robots = boardCopy.getRobots() #references to the robot copies
 		for robotkey in robots:
-			boardCopy.actors[robotkey].script = None 
+			boardCopy.actors[robotkey].script = None #eliminate the script from the robots for security reasons
 		return boardCopy

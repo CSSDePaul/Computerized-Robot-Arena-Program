@@ -62,10 +62,13 @@ class Robot(Actor):
 		Call the behavior script and then take the chosen action.
 		'''
 		
-		# call behavior script
-		# behavior script returns function pointer for action to be performed
+		#makes copy of the board, and gets copy of self to allow scripts
+		#	to manipulate them without affecting main program
 		boardcopy = board.getcopy()
 		selfcopy = boardcopy.actors[self.name]
+		
+		# call behavior script
+		# behavior script returns function pointer for action to be performed
 		action = self.script.decideAction(selfcopy, boardcopy, list(Robot.ACTIONS.keys()))
 		
 		if (action in Robot.ACTIONS.keys()):
