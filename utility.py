@@ -24,13 +24,13 @@ def forwardCoords(x, y, rotation, board = None):
     @param board: The board being considered.
     This is optional, if it is not provided the new position will not be checked to see if they are out of bounds (even if they are negative!).
     
-    @return: Returns a tuple with the new coordinates. If a value is provided for board, the new position will be checked against the bounds of the board,
+    @return: Returns a tuple with the new coordinates as integers. If a value is provided for board, the new position will be checked against the bounds of the board,
     and if it is out of bound the function will return None.
     '''
     
     # calculate the new x and y coordinates using mathemagic
-    newX = x + cos(radians(rotation))
-    newY = y + sin(radians(rotation))
+    newX = int(x + cos(radians(rotation)))
+    newY = int(y + sin(radians(rotation)))
     
     returnval = (newX, newY, rotation)
     
