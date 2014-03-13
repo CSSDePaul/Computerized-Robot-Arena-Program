@@ -3,11 +3,11 @@ Computerized-Robot-Arena-Program
 
 CRAP is a competitive coding challenge which has two or more coders write the behavior code for robots on a field of battle.
 
-## v0.0.1
+## v0.1.0
 
-v0.0.1 is out!
+v0.1.0 is out!
 
-With the release of v0.0.1 the game is now runable from the command line (no graphical interface yet, learn to use the CLI nub). To have two scripts duke it out, navigate to the directory containing the Computerized-Robot-Arena-Program directory, and run `python3.3 Computerized-Robot-Arena-Program script1.py script2.py`
+With the release of v0.1.0 the game is now runable from the command line (no graphical interface yet, learn to use the CLI nub). To have two scripts duke it out, navigate to the directory containing the Computerized-Robot-Arena-Program directory, and run `python3.3 Computerized-Robot-Arena-Program script1.py script2.py`
 
 ![](http://i.imgur.com/cK0tYOY.png)
 
