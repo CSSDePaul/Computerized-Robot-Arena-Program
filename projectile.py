@@ -111,3 +111,9 @@ class Projectile(Actor):
             self.xPosition = coords[0]
             self.yPosition = coords[1]
         
+    def __copy__(self):
+        '''
+        Create a safe copy of the projectile, containing only positional and type info.
+        '''
+        
+        return Projectile(self.xPosition, self.yPosition, self.rotation, self.name)

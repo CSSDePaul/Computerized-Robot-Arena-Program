@@ -63,3 +63,10 @@ class Actor:
 		@return: The string representation of the Actor (called whenever object is converted to string)
 		'''
 		return self.name
+	
+	def __copy__(self):
+		'''
+		Create a safe copy of the actor, containing only positional and type info.
+		'''
+		
+		return Actor(self.xPosition, self.yPosition, self.rotation, self.name, self.image)

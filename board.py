@@ -12,7 +12,7 @@ from random import shuffle
 Import shuffle function to randomize turn order.
 '''
 
-from copy import deepcopy
+import copy
 """
 Import deepcopy function to allow safe board-state passing.
 """
@@ -48,7 +48,7 @@ class Board:
 	An instance-variable dict for stashing destroyed actors.
 	'''
 
-	def __init__(self, scripts):
+	def __init__(self, scripts = None):
 		'''
 		Initializes robot.actors to add to Board
 		
@@ -62,12 +62,16 @@ class Board:
 
 		print("initializing board")
 		
-		for i in range(len(scripts)):
-			robotName = "Robot_" + str(i)
-			
-			print("initializing " + robotName)
-			
-			self.actors[robotName] = robot.Robot(4*i, 4*i, 0, scripts[i], robotName)			
+		# if scripts is None, this is a copy,
+		# so do not initialize robots from script,
+		# copy code will take care of it
+		if scripts is not None:
+			for i in range(len(scripts)):
+				robotName = "Robot_" + str(i)
+				
+				print("initializing " + robotName)
+				
+				self.actors[robotName] = robot.Robot(4*i, 4*i, 0, scripts[i], robotName)			
 
 	def update(self):
 		'''
@@ -195,14 +199,37 @@ class Board:
 
 		return result
 		
-	def getcopy(self):
-		"""
-		Returns a deep copy of the board to be passed to a script.
-		Everything is the same except that robot scripts have been removed.
-		The script must be removed 
-		"""
-		boardCopy = deepcopy(self) #returns a deep (recursive) copy of this board
-		robots = boardCopy.getRobots() #references to the robot copies
-		for robotkey in robots:
-			boardCopy.actors[robotkey].script = None #eliminate the script from the robots for security reasons
+	def __deepcopy__(self, memo=None):
+		'''
+		Returns a deep copy of the board, used for stashing the current state of the board.
+		
+		Creates a Board object with all of the actors in the current object,
+		but uses shallow copies of the actors which only have their positions and identifying info.
+		
+		@note: The copy should have no references to values in the original object,
+		such that manipulating any values within the copy will not effect the original, and vice versa.
+		'''
+		
+		# initialize new board object
+		boardCopy = Board()
+		
+		# fill in copies of actors
+		for key in self.actors:
+			boardCopy.actors[key] = copy.copy(self.actors[key])
+		
+		# fill in copies of destroyed actors
+		for key in self.destroyed:
+			boardCopy.destroyed[key] = copy.copy(self.destroyed[key])
+			
+		# return the copy
 		return boardCopy
+	
+	def __copy__(self):
+		'''
+		Returns a copy of the board, used for stashing the current state of the board.
+		
+		@note: This is an alias for __deepcopy__, both function exactly the same. This method is only provided for compatability.
+		'''
+		
+		return copy.deepcopy(self)
+

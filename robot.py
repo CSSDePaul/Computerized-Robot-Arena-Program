@@ -4,6 +4,11 @@ from math import cos, sin, radians
 
 from utility import forwardCoords
 
+import copy
+'''
+Import copy module for creating safe copies of board to pass to scripts.
+'''
+
 class Robot(Actor):
 	'''
 	The parent class for all robot scripts.
@@ -23,7 +28,7 @@ class Robot(Actor):
 	A function pointer to the script defining the behavior of the robot.
 	'''
 
-	def __init__(self, x, y, theta, script, name=None, health=DEFAULT_HEALTH):
+	def __init__(self, x, y, theta, script=None, name=None, health=DEFAULT_HEALTH):
 		'''
 		Constructor method.
 		
@@ -62,14 +67,9 @@ class Robot(Actor):
 		Call the behavior script and then take the chosen action.
 		'''
 		
-		#makes copy of the board, and gets copy of self to allow scripts
-		#	to manipulate them without affecting main program
-		boardcopy = board.getcopy()
-		selfcopy = boardcopy.actors[self.name]
-		
-		# call behavior script
-		# behavior script returns function pointer for action to be performed
-		action = self.script.decideAction(selfcopy, boardcopy, list(Robot.ACTIONS.keys()))
+		# call behavior script, passing in copies of self and board
+		# behavior script returns the key of the action in Robot.ACTIONS
+		action = self.script.decideAction(copy.copy(self), copy.deepcopy(board), list(Robot.ACTIONS.keys()))
 		
 		if (action in Robot.ACTIONS.keys()):
 			print("%s is going to %s" % (self.name, str(action)))
@@ -168,3 +168,10 @@ class Robot(Actor):
 				'TURN_RIGHT': turnRight,
 				'TURN_LEFT': turnLeft,
 				'SHOOT_PROJECTILE': shootProjectile }
+	
+	def __copy__(self):
+		'''
+		Create a safe copy of the robot, containing only positional and type info.
+		'''
+		
+		return Robot(self.xPosition, self.yPosition, self.rotation, self.script, self.name, self.health)
