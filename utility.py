@@ -14,6 +14,11 @@ from actor import Actor
 Actor class from actor module for use in manhattanDistance()
 '''
 
+import random
+'''
+random module used in decay()
+'''
+
 def forwardCoords(x, y, rotation, board = None):
     '''
     Returns the coordinates of one forward move as a tuple in the form of (x,y,rotation).
@@ -63,3 +68,18 @@ def manhattanDistance(loc1, loc2):
         
     # calculate and return result
     return abs(loc1[0] - loc2[0]) + abs(loc1[1] - loc2[1])
+
+def decay(probability):
+    '''
+    Performs the decay function used in Games and Sets.
+    
+    Generates a random number on [0.0, 1.0), and if that number
+    is less than probability, returns True, otherwise returns False.
+    
+    @param probability: The probability for the decay function,
+    i.e., the probability that this function will return false.
+    
+    @return: False if the random value is less than probability, True otherwise.
+    '''
+    
+    return random.random() < probability
