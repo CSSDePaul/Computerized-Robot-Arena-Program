@@ -31,14 +31,12 @@ http://stackoverflow.com/questions/67631/how-to-import-a-module-given-the-full-p
 from argparse import ArgumentParser
 from argparse import RawDescriptionHelpFormatter
 
-# imports for running simulation
-from board import Board
-from graphics import Graphics
+from game import Game
 
 __all__ = []
 __version__ = '0.0.1'
 __date__ = '2014-03-05'
-__updated__ = '2014-03-05'
+__updated__ = '2014-03-14'
 
 DEBUG = 0
 TESTRUN = 1
@@ -121,14 +119,11 @@ USAGE
             print(script1)
             print(script2)
 
-        # initialize board with list of scripts
-        board = Board([script1, script2])
-
-        # instantiate Graphics object
-        display = Graphics(board, 500)
-
-        # start simulation
-        display.start()
+        # create game object
+        game = Game([script1, script2], useGraphics = True, maximumRounds = 0)
+        
+        # run game
+        game.run()
 
         return 0
     except KeyboardInterrupt:

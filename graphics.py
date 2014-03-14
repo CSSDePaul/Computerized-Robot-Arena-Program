@@ -167,15 +167,19 @@ class Graphics(Thread):
     def update(self):
         '''
         Public function used to set update flag.
+        
+        @note: All this function does is set updateFlag to True. The actual update logic happens in _update(),
+        but that cannot be called directly due to threading issues.
         '''
         
         self.updateFlag = True
        
     def _update(self, event=None):
         '''
-        Updates the board, then redraws the board.
-
-        Performs the logic for determining when the game ends.
+        Internal update function which is injected into the tkinter main loop.
+        
+        @note: _update() should never be called directly, it should only ever be registered in the tkinter main loop.
+        To notify the Graphics object that it needs to update, call Graphics.update() instead.
         '''
         
         # =================
@@ -223,9 +227,9 @@ class Graphics(Thread):
         # kill tk mainloop
         self.tk_root.quit()
         
-    def run(self, update=None):
+    def run(self):
         '''
-        Starts the tkinter's main loop and schedules the first update event.
+        Initializes the tkinter graphics and starts the mainloop.
         '''
         
         print('begin running mainloop or something')
@@ -260,8 +264,9 @@ class Graphics(Thread):
         for key in self.board.actors:
             self.drawActor(key)
         
-        # initialize updateFunc
-        self.updateFunc = update
+        # ===============
+        # START MAIN LOOP
+        # ===============
         
         self.tk_root.after(10, self._update)#self.tk_root.after(self.delay, self._update) # temporary fix until framerate logic is moved out of Game class
         self.tk_root.mainloop()
