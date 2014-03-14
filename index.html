@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=640" />
+
+    <link rel="stylesheet" href="stylesheets/core.css" media="screen"/>
+    <link rel="stylesheet" href="stylesheets/mobile.css" media="handheld, only screen and (max-device-width:640px)"/>
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css"/>
+
+    <script type="text/javascript" src="javascripts/modernizr.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script type="text/javascript" src="javascripts/headsmart.min.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function () {
+        $('#main_content').headsmart()
+      })
+    </script>
+    <title>CRAPpy by CSSDePaul</title>
+  </head>
+
+  <body>
+    <a id="forkme_banner" href="https://github.com/CSSDePaul/Computerized-Robot-Arena-Program">View on GitHub</a>
+    <div class="shell">
+
+      <header>
+        <span class="ribbon-outer">
+          <span class="ribbon-inner">
+            <h1>CRAPpy</h1>
+            <h2>A simulation-game where scripted robots fight to the robot-death.</h2>
+          </span>
+          <span class="left-tail"></span>
+          <span class="right-tail"></span>
+        </span>
+      </header>
+
+      <section id="downloads">
+        <span class="inner">
+          <a href="https://github.com/CSSDePaul/Computerized-Robot-Arena-Program/zipball/master" class="zip"><em>download</em> .ZIP</a><a href="https://github.com/CSSDePaul/Computerized-Robot-Arena-Program/tarball/master" class="tgz"><em>download</em> .TGZ</a>
+        </span>
+      </section>
+
+
+      <span class="banner-fix"></span>
+
+
+      <section id="main_content">
+        <h1>
+<a name="computerized-robot-arena-program" class="anchor" href="#computerized-robot-arena-program"><span class="octicon octicon-link"></span></a>Computerized-Robot-Arena-Program</h1>
+
+<p>CRAP is a competitive coding challenge which has two or more coders write the behavior code for robots on a field of battle.</p>
+
+<h2>
+<a name="v010" class="anchor" href="#v010"><span class="octicon octicon-link"></span></a>v0.1.0</h2>
+
+<p>v0.1.0 is out!</p>
+
+<p>With the release of v0.1.0 the game is now runable from the command line (no graphical interface yet, learn to use the CLI nub). To have two scripts duke it out, navigate to the directory containing the Computerized-Robot-Arena-Program directory, and run <code>python3.3 Computerized-Robot-Arena-Program script1.py script2.py</code></p>
+
+<p><img src="http://i.imgur.com/cK0tYOY.png" alt=""></p>
+
+<h2>
+<a name="writing-scripts" class="anchor" href="#writing-scripts"><span class="octicon octicon-link"></span></a>Writing Scripts</h2>
+
+<p>The basic structure of a robot behavior script is as follows:</p>
+
+<div class="highlight highlight-python"><pre><span class="k">class</span> <span class="nc">robotBehavior</span><span class="p">:</span>
+
+    <span class="k">def</span> <span class="nf">decideAction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">robot</span><span class="p">,</span> <span class="n">board</span><span class="p">,</span> <span class="n">actions</span><span class="p">):</span>
+        <span class="sd">'''</span>
+<span class="sd">        Returns one of the elements in actions.</span>
+<span class="sd">        '''</span>
+
+        <span class="n">chosen_action</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="o">...</span>
+
+        <span class="k">return</span> <span class="n">actions</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+</pre></div>
+
+<p>Behavior scripts have to be wrapped in a class called <code>robotBehavior</code> and have a function <code>decideAction</code> which takes in the object representing the robot, an object representing the board, and a list with strings representing the acations the robot are allowed to take. <code>decideAction</code> should be the element of <em>actions</em> representing the action you want the robot to take.</p>
+
+<h2>
+<a name="actions" class="anchor" href="#actions"><span class="octicon octicon-link"></span></a>Actions</h2>
+
+<p>The robots can take the following actions:</p>
+
+<ul>
+<li>
+<strong>Move Forward</strong> - The robot moves one space in the direction its currently facing.</li>
+<li>
+<strong>Turn Left</strong> - The robot turns 90 degrees to the left (anti-clockwise).</li>
+<li>
+<strong>Turn Right</strong> - The robot turns 90 degrees to the right (clockwise).</li>
+<li>
+<strong>Fire Projectile</strong> - The robot fires a projectile directly in front of itself, moving in the direction the robot is facing.</li>
+</ul><h2>
+<a name="more-information" class="anchor" href="#more-information"><span class="octicon octicon-link"></span></a>More Information</h2>
+
+<p>For more information see <a href="https://github.com/CSSDePaul/Computerized-Robot-Arena-Program/wiki">the wiki</a>.</p>
+      </section>
+
+      <footer>
+        <span class="ribbon-outer">
+          <span class="ribbon-inner">
+            <p>this project by <a href="https://github.com/CSSDePaul">CSSDePaul</a> can be found on <a href="https://github.com/CSSDePaul/Computerized-Robot-Arena-Program">GitHub</a></p>
+          </span>
+          <span class="left-tail"></span>
+          <span class="right-tail"></span>
+        </span>
+        <p>Generated with <a href="http://pages.github.com">GitHub Pages</a> using Merlot</p>
+        <span class="octocat"></span>
+      </footer>
+
+    </div>
+
+    
+  </body>
+</html>
