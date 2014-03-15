@@ -10,6 +10,14 @@ from robot import Robot
 from projectile import Projectile
 
 from threading import Thread
+'''
+Import Thread class to use as parent of Graphics object.
+'''
+
+from queue import Queue
+'''
+Import synchronized queue class for use in queueing updates.
+'''
 
 class Graphics(Thread):
     '''
@@ -23,10 +31,13 @@ class Graphics(Thread):
     Size of tiles in the grid. Specifically, the length in pixels of the sides of the square tiles.
     '''
     
-    # TRIANGLE_POINTS = ((.577, 0), (-.289, -.5), (-.289, .5))
-    '''
-    Object coordinates for an equilateral triangle with a circumcenter at the origin, pointing at the positive x direction.
-    '''
+    DEFAULT_DELAY = 250
+    ''' The default delay between frame updates. '''
+    
+#     TRIANGLE_POINTS = ((.577, 0), (-.289, -.5), (-.289, .5))
+#     '''
+#     Object coordinates for an equilateral triangle with a circumcenter at the origin, pointing at the positive x direction.
+#     '''
     
     ROBOT_TRIANGLE_POINTS = ((.5, 0), (-.5, -.4), (-.5, .4))
     '''
@@ -44,11 +55,11 @@ class Graphics(Thread):
     Scaled object coordinates for the triangle with a circumcenter at the origin, pointing at the positive x direction.
     '''
     
-    # trianglePointsOffset = (.423, .5)
-    '''
-    Offset of the circumcenter of the equilateral triangle from the top left (least x and least y) corner of the tile it is in.
-    The tip of the triangle is touching the positive x side of the tile on the right side.
-    '''
+#     trianglePointsOffset = (.423, .5)
+#     '''
+#     Offset of the circumcenter of the equilateral triangle from the top left (least x and least y) corner of the tile it is in.
+#     The tip of the triangle is touching the positive x side of the tile on the right side.
+#     '''
     
     trianglePointsOffset = (.5, .5)
     '''
@@ -64,9 +75,6 @@ class Graphics(Thread):
     tk_root = None
     ''' The root tkinter object. '''
     
-    board = None
-    ''' Object representing the current state of the game board. '''
-    
     delay = 0
     ''' The interval between updates of the board (in miliseconds). '''
 
@@ -79,9 +87,9 @@ class Graphics(Thread):
     indexed by the key for the corresponding robot object in board.robots .
     '''
     
-    updateFlag = False
+    updateQueue = None
     '''
-    Flag used to indicate that graphics need to be updated.
+    Queue of board copy frames to be rendered.
     '''
     
     exitFlag = False
@@ -89,20 +97,23 @@ class Graphics(Thread):
     Flag used to indicate that the graphics window has been closed.
     '''
 
-    def __init__(self, board, delay=0):
+    def __init__(self, delay=Graphics.DEFAULT_DELAY):
         '''
         Constructor for Graphics class.
         
         @note: Initialization of all tkinter stuff happens in run() for threading reasons.
         '''        
         # assign parameter values
-        self.board = board;
         self.delay = delay;
             
         # =================================
         # DO IMPORTANT THINGS FOR THREADING
         # =================================
         
+        # initialize update queue
+        self.updateQueue = Queue()
+        
+        # call thread constructor
         Thread.__init__(self)
         
     def drawActor(self, key):
@@ -164,15 +175,15 @@ class Graphics(Thread):
                             self.translatedTrianglePoints[2][0],
                             self.translatedTrianglePoints[2][1]) 
     
-    def update(self):
+    def update(self, state):
         '''
-        Public function used to set update flag.
+        Public function used to queue a graphical update.
         
-        @note: All this function does is set updateFlag to True. The actual update logic happens in _update(),
-        but that cannot be called directly due to threading issues.
+        @param state: The state of the board to be displayed for this update. state is pushed onto updateQueue.
         '''
         
-        self.updateFlag = True
+        # put state in updateQueue
+        self.updateQueue.put(state)
        
     def _update(self, event=None):
         '''
@@ -186,18 +197,18 @@ class Graphics(Thread):
         # CHECK UPDATE FLAG
         # =================
         
-        # only update if update flag is set
-        # otherwise reschedule the update method
-        if self.updateFlag:
+        # only update if there are queued updates
+        # otherwise reschedule the update method without re-rendering the graphics
+        if not self.updateQueue.empty():
             
-            # reset update flag
-            self.updateFlag = False
+            # remove next queued update
+            board = self.updateQueue.get()
         
             # ======================
             # CLEAR DESTROYED ACTORS
             # ======================
             
-            for key in self.board.destroyed:
+            for key in board.destroyed:
                 if self.actorGraphics.get(key) != None:
                     
                     # delete graphics object using the stashed key
@@ -210,11 +221,11 @@ class Graphics(Thread):
             # UPDATE GRAPHICS
             # ===============
             
-            for key in self.board.actors:
+            for key in board.actors:
                 self.drawActor(key)
         
         # reschedule update
-        self.tk_root.after(10, self._update)#self.tk_root.after(self.delay, self._update) # temporary fix until framerate logic is moved out of Game class
+        self.tk_root.after(self.delay, self._update)
         
     def exit(self, event=None):
         '''
