@@ -13,8 +13,8 @@ from graphics import Graphics
 import utility
 ''' Import utility module for decay functionality. '''
 
-# import time
-# ''' Import time module, used to cause delay for graphics. '''
+import time
+''' Import time module, used to cause delay for graphics. '''
 
 import copy
 ''' Import copy module, used to pass copies of the board to the graphics class. '''
@@ -62,6 +62,9 @@ class Game:
     If the value is None, then no graphics are displayed.
     '''
     
+    synchronizeGraphics = False
+    ''' Flag used to indicate whether the game update loop should synchronize with the graphics or not. '''
+    
     board = None
     '''
     The Board object for the game.
@@ -72,7 +75,7 @@ class Game:
     Flag indicating whether the game is done or not.
     '''
 
-    def __init__(self, scripts, useGraphics = False, maximumRounds = 250, decay = 1, minimumRounds = 0):
+    def __init__(self, scripts, useGraphics = False, synchronizeGraphics = False, maximumRounds = 250, decay = 1, minimumRounds = 0):
         '''
         Constructor for Game class.
         
@@ -103,6 +106,7 @@ class Game:
         # if graphics are being used, initialize graphics
         if useGraphics: 
             self.graphics = Graphics()
+            self.synchronizeGraphics = synchronizeGraphics
         
     def run(self):
         '''
@@ -164,8 +168,8 @@ class Game:
             if self.graphics is not None:
                 self.graphics.update(copy.deepcopy(self.board))
                 
-#                 if (self.graphics.delay > 0):
-#                     time.sleep(self.graphics.delay / 1000)  # Graphics.delay is in miliseconds, time.sleep() takes seconds
+                if self.synchronizeGraphics:
+                    time.sleep(self.graphics.delay / 1000)  # Graphics.delay is in miliseconds, time.sleep() takes seconds
                 
             # increment number of rounds
             self.numRounds += 1

@@ -99,7 +99,7 @@ class Graphics(Thread):
     Flag used to indicate that the graphics window has been closed.
     '''
 
-    def __init__(self, delay=250, boardSize = Board.BOARD_SIZE):
+    def __init__(self, delay=500, boardSize = Board.BOARD_SIZE):
         '''
         Constructor for Graphics class.
         
