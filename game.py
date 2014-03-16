@@ -5,24 +5,19 @@ Created on Mar 13, 2014
 '''
 
 from board import Board
-'''
-Import the Board class.
-'''
+''' Import the Board class. '''
 
 from graphics import Graphics
-'''
-Import Graphics class.
-'''
+''' Import Graphics class. '''
 
 import utility
-'''
-Import utility module for decay functionality.
-'''
+''' Import utility module for decay functionality. '''
 
-import time
-'''
-Used to cause delay for graphics.
-'''
+# import time
+# ''' Import time module, used to cause delay for graphics. '''
+
+import copy
+''' Import copy module, used to pass copies of the board to the graphics class. '''
 
 class Game:
     '''
@@ -107,7 +102,7 @@ class Game:
         
         # if graphics are being used, initialize graphics
         if useGraphics: 
-            self.graphics = Graphics(self.board, 500)
+            self.graphics = Graphics()
         
     def run(self):
         '''
@@ -115,7 +110,7 @@ class Game:
         '''
         
         # reset important variables
-        self.numRounds = 0
+        self.numRounds = 1
         self.gameOver = False
         
         # ==============
@@ -124,6 +119,11 @@ class Game:
         
         # if graphics not None, start graphics runner
         if not (self.graphics is None):
+            
+            # give graphics object initial board state
+            self.graphics.update(copy.deepcopy(self.board))
+            
+            # start graphics thread
             self.graphics.start()
             
         # ========
@@ -140,16 +140,16 @@ class Game:
             # TEST FOR END GAME CONDITIONS
             # ============================
             
-            if self.maximumRounds > 0 and self.numRounds >= self.maximumRounds:         # round limit reached
+            if self.maximumRounds > 0 and self.numRounds >= self.maximumRounds:             # round limit reached
                 self.gameOver = True
                 print('Round Limit Reached')
             elif self.numRounds >= self.minimumRounds and not utility.decay(self.decay):    # decay termination
                 self.gameOver = True
                 print('Decay Limit Reached')
-            elif len(self.board.getRobots()) <= 1:                                       # one or fewer robots left
+            elif len(self.board.getRobots()) <= 1:                                          # one or fewer robots left
                 self.gameOver = True
                 print('Only {} robots left'.format(len(self.board.getRobots())))
-            elif self.graphics is not None and self.graphics.exitFlag:
+            elif self.graphics is not None and self.graphics.exitFlag:                      # graphics window closed
                 self.gameOver = True
                 print('Graphics Window Closed')
                 
@@ -161,11 +161,11 @@ class Game:
             self.board.update()
             
             # update graphics and delay if necessary
-            if not (self.graphics is None):
-                self.graphics.update()
+            if self.graphics is not None:
+                self.graphics.update(copy.deepcopy(self.board))
                 
-                if (self.graphics.delay > 0):
-                    time.sleep(self.graphics.delay / 1000)  # Graphics.delay is in miliseconds, time.sleep() takes seconds
+#                 if (self.graphics.delay > 0):
+#                     time.sleep(self.graphics.delay / 1000)  # Graphics.delay is in miliseconds, time.sleep() takes seconds
                 
             # increment number of rounds
             self.numRounds += 1
@@ -205,7 +205,7 @@ class Game:
             returnval = 'TIE'
             
         # kill graphics
-        self.graphics.exit()
+#         self.graphics.exit()
             
         # return result
         return returnval

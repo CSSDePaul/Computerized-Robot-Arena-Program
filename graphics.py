@@ -19,6 +19,8 @@ from queue import Queue
 Import synchronized queue class for use in queueing updates.
 '''
 
+from board import Board # hacky temporary import until board size code is unfucked
+
 class Graphics(Thread):
     '''
     A wrapper class to perform all graphical functions and run the main loop of the simulation.
@@ -30,9 +32,6 @@ class Graphics(Thread):
     '''
     Size of tiles in the grid. Specifically, the length in pixels of the sides of the square tiles.
     '''
-    
-    DEFAULT_DELAY = 250
-    ''' The default delay between frame updates. '''
     
 #     TRIANGLE_POINTS = ((.577, 0), (-.289, -.5), (-.289, .5))
 #     '''
@@ -78,6 +77,9 @@ class Graphics(Thread):
     delay = 0
     ''' The interval between updates of the board (in miliseconds). '''
 
+    boardSize = 0
+    ''' The length of the sizes of the square board. '''
+
     canvas = None
     ''' The tkinter canvas being used to render the graphics '''
 
@@ -97,7 +99,7 @@ class Graphics(Thread):
     Flag used to indicate that the graphics window has been closed.
     '''
 
-    def __init__(self, delay=Graphics.DEFAULT_DELAY):
+    def __init__(self, delay=250, boardSize = Board.BOARD_SIZE):
         '''
         Constructor for Graphics class.
         
@@ -105,6 +107,7 @@ class Graphics(Thread):
         '''        
         # assign parameter values
         self.delay = delay;
+        self.boardSize = boardSize
             
         # =================================
         # DO IMPORTANT THINGS FOR THREADING
@@ -116,11 +119,13 @@ class Graphics(Thread):
         # call thread constructor
         Thread.__init__(self)
         
-    def drawActor(self, key):
+    def drawActor(self, actor):
         '''
         Does the transformations and logic needed to draw the actors to the screen
         '''
-        actor = self.board.actors[key]
+        
+        # retrieve actor's name to use as key in actorGraphics dict
+        key = actor.name
         
         if type(actor) is Robot:
             # scale the points of the triangle shape to the size of the tile
@@ -182,6 +187,8 @@ class Graphics(Thread):
         @param state: The state of the board to be displayed for this update. state is pushed onto updateQueue.
         '''
         
+        print('Graphics.update() called')
+        
         # put state in updateQueue
         self.updateQueue.put(state)
        
@@ -222,7 +229,7 @@ class Graphics(Thread):
             # ===============
             
             for key in board.actors:
-                self.drawActor(key)
+                self.drawActor(board.actors[key])
         
         # reschedule update
         self.tk_root.after(self.delay, self._update)
@@ -243,7 +250,7 @@ class Graphics(Thread):
         Initializes the tkinter graphics and starts the mainloop.
         '''
         
-        print('begin running mainloop or something')
+        print('Graphics thread started')
         
         # =========================
         # INITIALIZE TKINTER STUFFS
@@ -261,6 +268,8 @@ class Graphics(Thread):
         
         # binds the exit method to the escape key
         self.tk_root.bind("<Escape>", self.exit)
+        
+        # forces tkinter to call exit() when the window is closed (hitting the x button)
         self.tk_root.protocol("WM_DELETE_WINDOW", self.exit)
         
         # initialize tk canvas object
@@ -269,15 +278,12 @@ class Graphics(Thread):
         print('canvas initialize to {}'.format(self.canvas))
 
         # set canvas width and height to the number of tiles times the number of pixels per tile
-        self.canvas = Canvas(self.tk_root, width = self.board.BOARD_SIZE * self.TILE_SIZE, height = self.board.BOARD_SIZE * self.TILE_SIZE)  # Canvas(self.tk_root) # old canvas initializer
-        self.canvas.grid(column=0, row=0, sticky=(N, W, E, S))
-        
-        for key in self.board.actors:
-            self.drawActor(key)
-        
+        self.canvas = Canvas(self.tk_root, width = self.boardSize * self.TILE_SIZE, height = self.boardSize * self.TILE_SIZE)
+        self.canvas.grid(column=0, row=0, sticky=(N, W, E, S)) # I don't even know what this is doing
+              
         # ===============
         # START MAIN LOOP
         # ===============
         
-        self.tk_root.after(10, self._update)#self.tk_root.after(self.delay, self._update) # temporary fix until framerate logic is moved out of Game class
+        self.tk_root.after(10, self._update)
         self.tk_root.mainloop()
