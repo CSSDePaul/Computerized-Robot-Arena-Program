@@ -36,7 +36,7 @@ from game import Game
 __all__ = []
 __version__ = '0.0.1'
 __date__ = '2014-03-05'
-__updated__ = '2014-03-15'
+__updated__ = '2014-03-16'
 
 DEBUG = 0
 TESTRUN = 1
@@ -120,7 +120,7 @@ USAGE
             print(script2)
 
         # create game object
-        game = Game([script1, script2], useGraphics = True, synchronizeGraphics = True, maximumRounds = 0)
+        game = Game([script1, script2], useGraphics = True, synchronizeGraphics = False, maximumRounds = 0)
         
         # run game
         game.run()

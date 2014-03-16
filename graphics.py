@@ -19,7 +19,8 @@ from queue import Queue
 Import synchronized queue class for use in queueing updates.
 '''
 
-from board import Board # hacky temporary import until board size code is unfucked
+import board
+''' Import board module to get access to board.DEFAULT_BOARD_SIZE '''
 
 class Graphics(Thread):
     '''
@@ -99,7 +100,7 @@ class Graphics(Thread):
     Flag used to indicate that the graphics window has been closed.
     '''
 
-    def __init__(self, delay=500, boardSize = Board.BOARD_SIZE):
+    def __init__(self, delay=500, boardSize = board.DEFAULT_BOARD_SIZE):
         '''
         Constructor for Graphics class.
         

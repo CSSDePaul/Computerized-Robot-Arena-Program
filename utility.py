@@ -41,7 +41,7 @@ def forwardCoords(x, y, rotation, board = None):
     
     # if board exists, check against bounds
     # if out of bounds, set returnval to None
-    if not (board is None) and (newX < 0 or newY < 0 or newX >= board.BOARD_SIZE or newY >= board.BOARD_SIZE):
+    if not (board is None) and (newX < 0 or newY < 0 or newX >= board.boardSize or newY >= board.boardSize):
         returnval = None
     
     return returnval

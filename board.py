@@ -17,6 +17,11 @@ import copy
 Import deepcopy function to allow safe board-state passing.
 """
 
+DEFAULT_BOARD_SIZE = 25
+'''
+The default size of the board.
+'''
+
 class Board:
 	'''
 	A representation of the game board.
@@ -28,15 +33,6 @@ class Board:
 	should be strings representing the name of the actor, and therefore the key of the actor in the Board.actors dict.
 	Methods of Board should always return the name, and should always take the name in as parameters when referencing actors.
 	'''
-	
-	BOARD_SIZE = 10
-	'''
-	The size of the board, specifically the number of tiles on the side of a square board.
-	Actors on the board may have coordinates in the range of [0,BOARD_SIZE),
-	that is, 0 <= coord < BOARD_SIZE
-	
-	If BOARD_SIZE is 0, the board is unbounded.
-	'''
 
 	actors = None
 	'''
@@ -47,8 +43,17 @@ class Board:
 	'''
 	An instance-variable dict for stashing destroyed actors.
 	'''
+	
+	boardSize = 0
+	'''
+	The size of the board, specifically the number of tiles on the side of a square board.
+	Actors on the board may have coordinates in the range of [0,boardSize),
+	that is, 0 <= coord < boardSize
+	
+	If boardSize is 0, the board is unbounded.
+	'''
 
-	def __init__(self, scripts = None):
+	def __init__(self, scripts = None, boardSize = DEFAULT_BOARD_SIZE):
 		'''
 		Initializes robot.actors to add to Board
 		
@@ -57,6 +62,7 @@ class Board:
 		'''
 		
 		#initialization of instance variables (necessary for copying purposes)
+		self.boardSize = boardSize
 		self.actors = {}
 		self.destroyed = {} 
 
@@ -143,12 +149,12 @@ class Board:
 		'''
 		
 		# if board is infinite, no need to check against board bounds
-		if self.BOARD_SIZE > 0:
+		if self.boardSize > 0:
 			
 			# if out of bounds, return without spawning projectiles
-			if x < 0 or x >= self.BOARD_SIZE:
+			if x < 0 or x >= self.boardSize:
 				return
-			if y < 0 or y >= self.BOARD_SIZE:
+			if y < 0 or y >= self.boardSize:
 				return
 			
 		# spawn projectile
