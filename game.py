@@ -34,16 +34,15 @@ class Game:
     @note: A decay of .01 give an expected length of ~100 rounds. Decay calculations do not begin until after minimumRounds rounds have passed.
     '''
 
-    maximumRounds = 250
-    '''
-    The maximum number of rounds in the game. A value of 0 means there is no maximum number of rounds.
-    '''
+    maximumRounds = 0
+    ''' The maximum number of rounds in the game. A value of 0 means there is no maximum number of rounds. '''
     
     decay = 1
     '''
-    The decay rate of of the program of the program, i.e. the probability that the current round is the last round.
+    The decay rate of of the game, i.e. the probability that the next round will take place.
     
-    @note: A decay of .01 give an expected length of ~100 rounds. Decay calculations do not begin until after minimumRounds rounds have passed.
+    @note: A decay of .01 give an expected length of ~100 rounds, which is a reasonable default value for a game.
+    Decay calculations do not begin until after minimumRounds rounds have passed.
     '''
     
     minimumRounds = 0
@@ -54,9 +53,7 @@ class Game:
     '''
     
     numRounds = 0
-    '''
-    The number of rounds so far.
-    '''
+    ''' The number of rounds so far. '''
     
     graphics = None
     '''
@@ -69,14 +66,10 @@ class Game:
     ''' Flag used to indicate whether the game update loop should synchronize with the graphics or not. '''
     
     board = None
-    '''
-    The Board object for the game.
-    '''
+    ''' The Board object for the game. '''
     
     gameOver = False
-    '''
-    Flag indicating whether the game is done or not.
-    '''
+    ''' Flag indicating whether the game is done or not. '''
 
     def __init__(self, scripts, useGraphics = False, synchronizeGraphics = False, maximumRounds = 250, decay = 1, minimumRounds = 0):
         '''
