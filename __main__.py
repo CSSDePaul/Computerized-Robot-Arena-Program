@@ -119,10 +119,10 @@ USAGE
         level = logging.WARNING
         if args.verbose == 1:
             level = logging.INFO
-        elif args.verbose == 2:
+        elif args.verbose >= 2:
             level = logging.DEBUG
             
-        logging.basicConfig(level=level)
+        logging.basicConfig(format='%(levelname)s:%(message)s', level=level)
         
         # retrieve script1 argument
         script1 = args.script1
@@ -137,7 +137,7 @@ USAGE
         script2 = importModule(script2).robotBehavior()
 
         # create game object
-        game = Game([script1, script2], useGraphics = True, synchronizeGraphics = False, maximumRounds = 0)
+        game = Game([script1, script2], useGraphics = True, synchronizeGraphics = DEBUG, maximumRounds = 0)
         
         # run game
         game.run()

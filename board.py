@@ -2,6 +2,7 @@ import robot
 '''
 provides access to robot constructor.
 '''
+
 import projectile
 '''
 provides access to projectile constructor.
@@ -111,7 +112,7 @@ class Board:
 				# health == 0 is used a general flag for destroying an actor
 				if self.actors[key2].health <= 0:
 
-					logging.info(self.actors[key2], " destroyed")
+					logging.info("{} destroyed".format(self.actors[key2]))
 
 					# stash destroyed robot
 					self.destroyed[key2] = self.actors[key2]
@@ -176,7 +177,7 @@ class Board:
 		@param damage2: The damage to be applied to actor2. Defaults to 1.
 		'''
 		
-		print ('collision between {} and {}'.format(actor1, actor2))
+		logging.debug('collision between {} and {}'.format(actor1, actor2))
 		
 		# apply damage to robots
 		self.actors[actor1].health -= damage1
