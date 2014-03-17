@@ -22,6 +22,9 @@ Import synchronized queue class for use in queueing updates.
 import board
 ''' Import board module to get access to board.DEFAULT_BOARD_SIZE '''
 
+import logging
+''' Import logging module. '''
+
 class Graphics(Thread):
     '''
     A wrapper class to perform all graphical functions and run the main loop of the simulation.
@@ -188,7 +191,7 @@ class Graphics(Thread):
         @param state: The state of the board to be displayed for this update. state is pushed onto updateQueue.
         '''
         
-        print('Graphics.update() called')
+        logging.debug('Graphics.update() called')
         
         # put state in updateQueue
         self.updateQueue.put(state)
@@ -251,7 +254,7 @@ class Graphics(Thread):
         Initializes the tkinter graphics and starts the mainloop.
         '''
         
-        print('Graphics thread started')
+        logging.info('Graphics thread started')
         
         # =========================
         # INITIALIZE TKINTER STUFFS
@@ -276,7 +279,7 @@ class Graphics(Thread):
         # initialize tk canvas object
         self.canvas = Canvas(self.tk_root)
         
-        print('canvas initialize to {}'.format(self.canvas))
+        logging.debug('canvas initialized to {}'.format(self.canvas))
 
         # set canvas width and height to the number of tiles times the number of pixels per tile
         self.canvas = Canvas(self.tk_root, width = self.boardSize * self.TILE_SIZE, height = self.boardSize * self.TILE_SIZE)

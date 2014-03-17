@@ -17,6 +17,9 @@ import copy
 Import deepcopy function to allow safe board-state passing.
 """
 
+import logging
+''' Import logging module. '''
+
 DEFAULT_BOARD_SIZE = 25
 '''
 The default size of the board.
@@ -66,7 +69,7 @@ class Board:
 		self.actors = {}
 		self.destroyed = {} 
 
-		print("initializing board")
+		logging.info("initializing board")
 		
 		# if scripts is None, this is a copy,
 		# so do not initialize robots from script,
@@ -75,7 +78,7 @@ class Board:
 			for i in range(len(scripts)):
 				robotName = "Robot_" + str(i)
 				
-				print("initializing " + robotName)
+				logging.info("initializing " + robotName)
 				
 				self.actors[robotName] = robot.Robot(4*i, 4*i, 0, scripts[i], robotName)			
 
@@ -108,7 +111,7 @@ class Board:
 				# health == 0 is used a general flag for destroying an actor
 				if self.actors[key2].health <= 0:
 
-					print(self.actors[key2], " destroyed")
+					logging.info(self.actors[key2], " destroyed")
 
 					# stash destroyed robot
 					self.destroyed[key2] = self.actors[key2]

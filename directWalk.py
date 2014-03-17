@@ -45,8 +45,6 @@ class robotBehavior:
             return 'TURN_RIGHT'
 
     def __init__(self):
-        '''
-        Constructor
-        '''
+
         pass
         

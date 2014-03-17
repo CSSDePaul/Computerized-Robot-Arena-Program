@@ -19,6 +19,9 @@ import time
 import copy
 ''' Import copy module, used to pass copies of the board to the graphics class. '''
 
+import logging
+''' Import logging module. '''
+
 class Game:
     '''
     A runner class to run one full full game.
@@ -138,7 +141,7 @@ class Game:
         # rounds continue until one of the end game conditions are met.
         while not self.gameOver:
             
-            print('\nGAME ROUND #{}'.format(self.numRounds))
+            logging.debug('\nGAME ROUND #{}'.format(self.numRounds))
             
             # ============================
             # TEST FOR END GAME CONDITIONS
@@ -146,16 +149,16 @@ class Game:
             
             if self.maximumRounds > 0 and self.numRounds >= self.maximumRounds:             # round limit reached
                 self.gameOver = True
-                print('Round Limit Reached')
+                logging.info('Round Limit Reached')
             elif self.numRounds >= self.minimumRounds and not utility.decay(self.decay):    # decay termination
                 self.gameOver = True
-                print('Decay Limit Reached')
+                logging.info('Decay Limit Reached')
             elif len(self.board.getRobots()) <= 1:                                          # one or fewer robots left
                 self.gameOver = True
-                print('Only {} robots left'.format(len(self.board.getRobots())))
+                logging.info('Only {} robots left'.format(len(self.board.getRobots())))
             elif self.graphics is not None and self.graphics.exitFlag:                      # graphics window closed
                 self.gameOver = True
-                print('Graphics Window Closed')
+                logging.info('Graphics Window Closed')
                 
             # ===============
             # PERFORM UPDATES

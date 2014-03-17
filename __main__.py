@@ -28,19 +28,22 @@ For a short explanation of how this is being used, see:
 http://stackoverflow.com/questions/67631/how-to-import-a-module-given-the-full-path
 '''
 
+import logging
+''' Import logging module. '''
+
 from argparse import ArgumentParser
 from argparse import RawDescriptionHelpFormatter
 
 from game import Game
 
 __all__ = []
-__version__ = '0.0.1'
+__version__ = '0.1.3'
 __date__ = '2014-03-05'
 __updated__ = '2014-03-16'
 
-DEBUG = 0
-TESTRUN = 1
-PROFILE = 0
+DEBUG = True
+TESTRUN = False
+PROFILE = False
 
 class CLIError(Exception):
     '''Generic exception to raise and log different fatal errors.'''
@@ -84,6 +87,11 @@ USAGE
 ''' % (program_shortdesc, str(__date__))
 
     try:
+        
+        # =========================
+        # CONFIGURE ARGUMENT PARSER
+        # =========================
+        
         # initialize argument parser object
         parser = ArgumentParser(description=program_license, formatter_class=RawDescriptionHelpFormatter)
         
@@ -92,7 +100,7 @@ USAGE
         # so ordering here matters.
         
         # add verbose argument
-        parser.add_argument("-v", "--verbose", dest="verbose", action="count", help="set verbosity level [default: %(default)s]")
+        parser.add_argument("-v", "--verbosity", dest="verbose", action="count", help="set verbosity level [default: %(default)s]")
         
         # add version argument
         parser.add_argument('-V', '--version', action='version', version=program_version_message)
@@ -100,24 +108,33 @@ USAGE
         parser.add_argument("script1", help="The python file containing the first behavior script.")
         parser.add_argument("script2", help="The python file containing the second behavior script.")
 
+        # =====================
+        # PROCESS CLI ARGUMENTS
+        # =====================
+
         # Process arguments
         args = parser.parse_args()
         
-        # retrieve verbose argument
-        verbose = args.verbose
+        # retrieve verbosity value
+        level = logging.WARNING
+        if args.verbose == 1:
+            level = logging.INFO
+        elif args.verbose == 2:
+            level = logging.DEBUG
+            
+        logging.basicConfig(level=level)
         
         # retrieve script1 argument
         script1 = args.script1
         script2 = args.script2
         
+        # ======================
+        # CONFIGURE AND RUN GAME
+        # ======================
+        
         # load the scripts
         script1 = importModule(script1).robotBehavior()
         script2 = importModule(script2).robotBehavior()
-        
-        # test to see if script1 loaded correctly
-        if (verbose):
-            print(script1)
-            print(script2)
 
         # create game object
         game = Game([script1, script2], useGraphics = True, synchronizeGraphics = False, maximumRounds = 0)
@@ -138,10 +155,8 @@ USAGE
         return 2
 
 if __name__ == "__main__":
-#     if DEBUG:
-#         sys.argv.append("-h")
-#         sys.argv.append("-v")
-#         sys.argv.append("-r")
+    if DEBUG:
+        sys.argv.append("-vv")
 #     if TESTRUN:
 #         import doctest
 #         doctest.testmod()

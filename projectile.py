@@ -8,6 +8,9 @@ from actor import Actor
 
 from utility import forwardCoords
 
+import logging
+''' Import logging module. '''
+
 class Projectile(Actor):
     '''
     A class representing a basic projectile on the board.
@@ -54,7 +57,7 @@ class Projectile(Actor):
         @param board: A reference to the board object. This is used for checking bounds and collidingActors.
         '''
         
-        print("%s is moving forward" % (self.name))
+        logging.debug("%s is moving forward" % (self.name))
         
         # get the coordinates in front of the robot
         coords = forwardCoords(self.xPosition, self.yPosition, self.rotation, board)
@@ -63,7 +66,7 @@ class Projectile(Actor):
         if coords is None:
             
             # debugging output
-            print('{} is off the board'.format(self.name))
+            logging.debug('{} is off the board'.format(self.name))
             
             self.health = 0
             return
@@ -77,17 +80,17 @@ class Projectile(Actor):
         
         if len(collidingActors) > 0:
             
-            print('actors in front of {}: {}'.format(self.name, str(collidingActors)))
+            logging.debug('actors in front of {}: {}'.format(self.name, str(collidingActors)))
             
             # iterate over actors in space
             for actor in collidingActors:
                 
-                print(self.name + " to collide with actor " + actor)
+                logging.debug(self.name + " to collide with actor " + actor)
             
                 # if actor is robot, damage robot and destroy self
                 if actor in board.getRobots():
                     
-                    print(self.name + " colliding with robot " + actor)
+                    logging.debug(self.name + " colliding with robot " + actor)
                     
                     # run collision logic
                     board.collision(self.name, actor)
@@ -98,7 +101,7 @@ class Projectile(Actor):
                     # actor is a projectile
                     # if both are not facing the same direction, both are destroyed
                     
-                    print(self.name + " colliding with projectile " + actor)
+                    logging.debug(self.name + " colliding with projectile " + actor)
                     
                     # test if both are facing same direction
                     if not (board.actors[actor].rotation == self.rotation):

@@ -9,6 +9,9 @@ import copy
 Import copy module for creating safe copies of board to pass to scripts.
 '''
 
+import logging
+''' Import logging module. '''
+
 class Robot(Actor):
 	'''
 	The parent class for all robot scripts.
@@ -72,7 +75,7 @@ class Robot(Actor):
 		action = self.script.decideAction(copy.copy(self), copy.deepcopy(board), list(Robot.ACTIONS.keys()))
 		
 		if (action in Robot.ACTIONS.keys()):
-			print("%s is going to %s" % (self.name, str(action)))
+			logging.info("%s is going to %s" % (self.name, str(action)))
 			
 			action = Robot.ACTIONS[action]
 			
@@ -114,7 +117,7 @@ class Robot(Actor):
 		@param board: A reference to the board object. This is used for checking bounds and collisions.
 		'''
 		
-		print("%s is moving forward" % (self.name))
+		logging.debug("%s is moving forward" % (self.name))
 
 		# get the coordinates in front of the robot
 		coords = forwardCoords(self.xPosition, self.yPosition, self.rotation, board)
@@ -123,7 +126,7 @@ class Robot(Actor):
 		if coords is None:
 			
 			# debugging output
-			print('{} is off the board'.format(self.name))
+			logging.debug('{} is off the board'.format(self.name))
 			
 			# exit
 			return
@@ -139,19 +142,19 @@ class Robot(Actor):
 		if len(collidingActors) > 0:
 			
 			# debugging output
-			print('actors in front of {}: {}'.format(self.name, str(collidingActors)))
+			logging.debug('actors in front of {}: {}'.format(self.name, str(collidingActors)))
 			
 			# iterate over actors in space
 			for actor in collidingActors:
 				
 				# debugging output
-				print(self.name + " to collide with actor " + actor)
+				logging.debug(self.name + " to collide with actor " + actor)
 				
 				# if actor is robot, damage robot and destroy self
 				if actor in board.getRobots():
 					
 					# debugging output
-					print(self.name + " colliding with robot " + actor)
+					logging.debug(self.name + " colliding with robot " + actor)
 					
 					# run collision logic
 					board.collision(self.name, actor)
