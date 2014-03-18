@@ -191,7 +191,7 @@ class Graphics(Thread):
         @param state: The state of the board to be displayed for this update. state is pushed onto updateQueue.
         '''
         
-        logging.debug('Graphics.update() called')
+#         logging.debug('Graphics.update() called')
         
         # put state in updateQueue
         self.updateQueue.put(state)
@@ -279,7 +279,7 @@ class Graphics(Thread):
         # initialize tk canvas object
         self.canvas = Canvas(self.tk_root)
         
-        logging.debug('canvas initialized to {}'.format(self.canvas))
+#         logging.debug('canvas initialized to {}'.format(self.canvas))
 
         # set canvas width and height to the number of tiles times the number of pixels per tile
         self.canvas = Canvas(self.tk_root, width = self.boardSize * self.TILE_SIZE, height = self.boardSize * self.TILE_SIZE)

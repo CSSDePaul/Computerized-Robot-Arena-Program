@@ -22,10 +22,10 @@ class robotBehavior:
 			
 			# do other stuff
 			isOccupied = board.occupied(forwardLoc[0],forwardLoc[1])
-			if (isOccupied is None):
+			if isOccupied is None:
 				#space in front is outside the board
 				return 'TURN_RIGHT'
-			if (isOccupied):
+			if isOccupied:
 				#if something is in front, shoot at it
 				return 'SHOOT_PROJECTILE'
 			else:

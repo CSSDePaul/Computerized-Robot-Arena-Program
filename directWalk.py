@@ -6,6 +6,10 @@ Created on Mar 12, 2014
 
 from utility import forwardCoords, manhattanDistance
 
+from robot import Robot
+
+import logging
+
 class robotBehavior:
     '''
     A behavior that make the robot walk in a straight line towards the closest robot.
@@ -18,6 +22,11 @@ class robotBehavior:
         
         # get the list of robots from the board
         robots = board.getRobots()
+        
+        # if no other robot, do nothing
+        if len(robots) <= 1:
+            return
+        
         robotKeys = list(robots.keys())
         
         # temporary hacky workaround
@@ -33,6 +42,19 @@ class robotBehavior:
         
         # get coordinates of space in front of robot
         forwardPos = forwardCoords(robot.xPosition, robot.yPosition, robot.rotation)
+        
+        # if other robot is right in front, shoot that robot
+        actors_ahead = board.occupied(forwardPos[0], forwardPos[1])
+        
+        logging.debug(actors_ahead)
+        
+        fire = False
+        for actor_name in actors_ahead:
+            fire = True if isinstance(board.actors[actor_name], Robot) else fire
+            
+        if fire:
+            logging.debug('FIRE AWAY')
+            return 'SHOOT_PROJECTILE'
         
         # get distance of forwardPos from target
         forwardDistance = manhattanDistance(forwardPos, closest)

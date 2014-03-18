@@ -11,14 +11,14 @@ from utility import forwardCoords
 import logging
 ''' Import logging module. '''
 
+STARTING_HEALTH = 1
+'''
+The starting health value for robots on the field.
+'''
+
 class Projectile(Actor):
     '''
     A class representing a basic projectile on the board.
-    '''
-    
-    STARTING_HEALTH = 1
-    '''
-    The starting health value for robots on the field.
     '''
         
     def __init__(self, x, y, theta, name = None):
@@ -38,7 +38,7 @@ class Projectile(Actor):
         self.xPosition = x
         self.yPosition = y
         self.rotation = theta
-        self.health = Projectile.STARTING_HEALTH
+        self.health = STARTING_HEALTH
         
         # name is the default string of the object,
         # which includes the memory address,

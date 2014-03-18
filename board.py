@@ -149,6 +149,8 @@ class Board:
 		'''
 		Instantiates a new projectile object and add it to the list of actors.
 		
+		@note: If the projectile is spawned on top of another actor, it will still count as a collision.
+		
 		@param x: the x coordinate of the projectile to be spawned
 		@param y: the y coordinate of the projectile to be spawned
 		@param rotation: the direction the projectile should move in.
@@ -162,10 +164,17 @@ class Board:
 				return
 			if y < 0 or y >= self.boardSize:
 				return
-			
+		
+		# get list of actors already in that space
+		existingActors = self.occupied(x, y)
+		
 		# spawn projectile
 		newProjectile = projectile.Projectile(x, y, rotation)
 		self.actors[newProjectile.name] = newProjectile;
+		
+		# run necessary collisions
+		for actor in existingActors:
+			self.collision(newProjectile.name, actor)
 
 	def collision(self, actor1, actor2, damage1 = 1, damage2 = 1):
 		'''
@@ -182,6 +191,7 @@ class Board:
 # 		logging.debug('collision between {} and {}'.format(actor1, actor2))
 		
 		# apply damage to robots
+		logging.debug('{}, {}'.format(actor1, actor2))
 		self.actors[actor1].health -= damage1
 		self.actors[actor2].health -= damage2
 		
