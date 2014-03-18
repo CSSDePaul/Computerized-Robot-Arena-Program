@@ -75,7 +75,7 @@ class Robot(Actor):
 		action = self.script.decideAction(copy.copy(self), copy.deepcopy(board), list(Robot.ACTIONS.keys()))
 		
 		if (action in Robot.ACTIONS.keys()):
-			logging.info("%s is going to %s" % (self.name, str(action)))
+# 			logging.info("%s is going to %s" % (self.name, str(action)))
 			
 			action = Robot.ACTIONS[action]
 			

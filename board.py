@@ -8,7 +8,7 @@ import projectile
 provides access to projectile constructor.
 '''
 
-from random import shuffle
+from random import shuffle, randrange
 '''
 Import shuffle function to randomize turn order.
 '''
@@ -61,8 +61,8 @@ class Board:
 		'''
 		Initializes robot.actors to add to Board
 		
-		@param scripts: function pointers to the scripts which define the robot behaviors.
-		One robot will be created for each script provided.
+		@param scripts: A dict containing the robotBehavior objects keyed to the script's name
+		@param boardSize: The size of the board, i.e., the length in tiles of the sides of the the square board.
 		'''
 		
 		#initialization of instance variables (necessary for copying purposes)
@@ -70,18 +70,20 @@ class Board:
 		self.actors = {}
 		self.destroyed = {} 
 
-		logging.info("initializing board")
+# 		logging.info("initializing board")
 		
 		# if scripts is None, this is a copy,
-		# so do not initialize robots from script,
+		# so do not initialize robots from script_name,
 		# copy code will take care of it
 		if scripts is not None:
-			for i in range(len(scripts)):
-				robotName = "Robot_" + str(i)
+			for script_name in scripts:
 				
-				logging.info("initializing " + robotName)
+# 				logging.debug("initializing {}".format(script_name))
 				
-				self.actors[robotName] = robot.Robot(4*i, 4*i, 0, scripts[i], robotName)			
+# 				logging.debug(scripts)
+				
+				# initialize the robot actor at a random location on the board
+				self.actors[script_name] = robot.Robot(randrange(self.boardSize), randrange(self.boardSize), 0, scripts[script_name], script_name)			
 
 	def update(self):
 		'''
@@ -112,7 +114,7 @@ class Board:
 				# health == 0 is used a general flag for destroying an actor
 				if self.actors[key2].health <= 0:
 
-					logging.info("{} destroyed".format(self.actors[key2]))
+# 					logging.debug("{} destroyed".format(self.actors[key2]))
 
 					# stash destroyed robot
 					self.destroyed[key2] = self.actors[key2]
@@ -177,7 +179,7 @@ class Board:
 		@param damage2: The damage to be applied to actor2. Defaults to 1.
 		'''
 		
-		logging.debug('collision between {} and {}'.format(actor1, actor2))
+# 		logging.debug('collision between {} and {}'.format(actor1, actor2))
 		
 		# apply damage to robots
 		self.actors[actor1].health -= damage1

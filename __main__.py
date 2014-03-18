@@ -35,11 +35,12 @@ from argparse import ArgumentParser
 from argparse import RawDescriptionHelpFormatter
 
 from game import Game
+from set import Set
 
 __all__ = []
 __version__ = '0.1.3'
 __date__ = '2014-03-05'
-__updated__ = '2014-03-16'
+__updated__ = '2014-03-17'
 
 DEBUG = True
 TESTRUN = False
@@ -128,19 +129,23 @@ USAGE
         script1 = args.script1
         script2 = args.script2
         
+        logging.info('{}, {}'.format(script1, script2))
+        
         # ======================
         # CONFIGURE AND RUN GAME
         # ======================
         
         # load the scripts
-        script1 = importModule(script1).robotBehavior()
-        script2 = importModule(script2).robotBehavior()
+        scripts = {}
+        scripts['{}_0'.format(script1)] = importModule(script1).robotBehavior()
+        scripts['{}_1'.format(script2)] = importModule(script2).robotBehavior()
+        
+        logging.debug(scripts)
 
         # create game object
-        game = Game([script1, script2], useGraphics = True, synchronizeGraphics = DEBUG, maximumRounds = 0)
+        runner = Set(scripts, decay = .99)
         
-        # run game
-        game.run()
+        print(runner.scoreBoard)
 
         return 0
     except KeyboardInterrupt:
@@ -156,7 +161,7 @@ USAGE
 
 if __name__ == "__main__":
     if DEBUG:
-        sys.argv.append("-vv")
+        sys.argv.append("-v")
 #     if TESTRUN:
 #         import doctest
 #         doctest.testmod()

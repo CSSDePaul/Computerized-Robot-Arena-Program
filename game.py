@@ -22,6 +22,8 @@ import copy
 import logging
 ''' Import logging module. '''
 
+DEFAULT_MAXIMUM_ROUNDS = 250
+
 class Game:
     '''
     A runner class to run one full full game.
@@ -39,9 +41,9 @@ class Game:
     
     decay = 1
     '''
-    The decay rate of of the game, i.e. the probability that the next round will take place.
+    The decay rate of the game, i.e. the probability that the next round will take place.
     
-    @note: A decay of .01 give an expected length of ~100 rounds, which is a reasonable default value for a game.
+    @note: A decay of .99 gives an expected length of ~100 rounds, which is a reasonable default value for a game.
     Decay calculations do not begin until after minimumRounds rounds have passed.
     '''
     
@@ -70,13 +72,21 @@ class Game:
     
     gameOver = False
     ''' Flag indicating whether the game is done or not. '''
+    
+    scripts = None
+    ''' Stash of scripts used for re-running the game. '''
 
-    def __init__(self, scripts, useGraphics = False, synchronizeGraphics = False, maximumRounds = 250, decay = 1, minimumRounds = 0):
+    def __init__(self, scripts, useGraphics = False, synchronizeGraphics = False, maximumRounds = DEFAULT_MAXIMUM_ROUNDS, decay = 1, minimumRounds = 0):
         '''
         Constructor for Game class.
         
-        @param scripts: A list of RobotBehavior objects defining the robots in the game.
-        @param graphics: The Graphics object being used to render the graphics object. If graphics is None, no graphical display will be done.
+        @param scripts: A dict of robotBehavior objects keyed to the script's name.
+        @param useGraphics: The Graphics object being used to render the graphics object. If graphics is None, no graphical display will be done.
+        @param synchronizeGraphics: If graphics are being used, making this True will cause the game loop to update at the same rate as the graphics loop,
+        rather than running as fast as it can. This is available for debugging purposes.
+        @param maximumRounds: The maximum number of rounds in the game.
+        @param decay: The decay rate of the game, i.e. the probability that the next round will take place.
+        @param minimumRounds: The minimum number of rounds in the game.
         '''
         
         # ====================
@@ -87,17 +97,7 @@ class Game:
         self.maximumRounds = maximumRounds
         self.decay = decay
         self.minimumRounds = minimumRounds
-        
-        
-        
-        # initialize numRounds
-        self.numRounds = 0
-        
-        # =========================
-        # CREATE BOARD AND GRAPHICS
-        # =========================
-        
-        self.board = Board(scripts)
+        self.scripts = scripts
         
         # if graphics are being used, initialize graphics
         if useGraphics: 
@@ -107,11 +107,14 @@ class Game:
     def run(self):
         '''
         Runs the game simulation and returns the winner.
+        
+        @return: A list containing the names of all the robots that survived the round.
         '''
         
         # reset important variables
-        self.numRounds = 1
+        self.numRounds = 0
         self.gameOver = False
+        self.board = Board(self.scripts)
         
         # ==============
         # START GRAPHICS
@@ -142,16 +145,16 @@ class Game:
             
             if self.maximumRounds > 0 and self.numRounds >= self.maximumRounds:             # round limit reached
                 self.gameOver = True
-                logging.info('Round Limit Reached')
+                logging.debug('Round Limit Reached')
             elif self.numRounds >= self.minimumRounds and not utility.decay(self.decay):    # decay termination
                 self.gameOver = True
-                logging.info('Decay Limit Reached')
+                logging.debug('Decay Limit Reached')
             elif len(self.board.getRobots()) <= 1:                                          # one or fewer robots left
                 self.gameOver = True
-                logging.info('Only {} robots left'.format(len(self.board.getRobots())))
+                logging.debug('{} robot(s) left'.format(len(self.board.getRobots())))
             elif self.graphics is not None and self.graphics.exitFlag:                      # graphics window closed
                 self.gameOver = True
-                logging.info('Graphics Window Closed')
+                logging.debug('Graphics Window Closed')
                 
             # ===============
             # PERFORM UPDATES
@@ -174,8 +177,6 @@ class Game:
         # END OF GAME LOGIC
         # =================
         
-        returnval = ''
-        
         # if 1 or 0 robots left, end game
         if len(self.board.getRobots()) == 1:
             
@@ -183,30 +184,22 @@ class Game:
             # print out winner and exit
 
             # print winner
-            print("A winner is " + list(self.board.getRobots().keys())[0])
-
-            # return name of winning robot
-            returnval = list(self.board.getRobots().keys())[0]
+            logging.info("A winner is " + list(self.board.getRobots().keys())[0])
         elif len(self.board.getRobots()) < 1:
             
             # no robots left,
             # declare game a tie
             
             # print tie
-            print("The game is a tie, everyone is dead.")
-            
-            # return tie
-            returnval = 'TIE'
+            logging.info("The game is a tie, everyone is dead.")
         elif len(self.board.getRobots()) > 1:
             
             # multiple robots left, declare a tie
-            print("multiple robots left: {}".format(list(self.board.getRobots().keys())))
-            
-            returnval = 'TIE'
-            
+            logging.info("multiple robots left: {}".format(list(self.board.getRobots().keys())))
+        
         # kill graphics
 #         self.graphics.exit()
             
         # return result
-        return returnval
+        return self.board.getRobots()
 

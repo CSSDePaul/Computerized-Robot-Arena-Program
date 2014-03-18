@@ -16,6 +16,11 @@ class robotBehavior:
 			
 			forwardLoc = utility.forwardCoords(robot.xPosition, robot.yPosition, robot.rotation, board)
 			
+			# if going to move off the board, turn
+			if forwardLoc is None:
+				return 'TURN_RIGHT'
+			
+			# do other stuff
 			isOccupied = board.occupied(forwardLoc[0],forwardLoc[1])
 			if (isOccupied is None):
 				#space in front is outside the board
