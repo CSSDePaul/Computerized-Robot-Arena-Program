@@ -17,6 +17,10 @@ It defines classes_and_methods
 @deffield    updated: Updated
 '''
 
+# =======
+# IMPORTS
+# =======
+
 import sys
 import os
 
@@ -37,12 +41,21 @@ from argparse import RawDescriptionHelpFormatter
 from game import Game
 from set import Set
 
+# ======================
+# VERSIONING INFORMATION
+# ======================
+
 __all__ = []
 __version__ = '0.1.3'
 __date__ = '2014-03-05'
-__updated__ = '2014-03-17'
+__updated__ = '2014-03-18'
+
+# ==================
+# DEGUGGING SETTINGS
+# ==================
 
 DEBUG = True
+LOG_LEVEL = logging.DEBUG
 TESTRUN = False
 PROFILE = False
 
@@ -116,12 +129,18 @@ USAGE
         # Process arguments
         args = parser.parse_args()
         
-        # retrieve verbosity value
+        # retrieve CLI verbosity value
         level = logging.WARNING
-        if args.verbose == 1:
-            level = logging.INFO
-        elif args.verbose >= 2:
-            level = logging.DEBUG
+        if args.verbose is not None:
+            if args.verbose == 1:
+                level = logging.INFO
+            elif args.verbose >= 2:
+                level = logging.DEBUG
+        
+        # now ignore CLI verbosity value and set verbosity according to debug settings
+        if DEBUG:
+            level = LOG_LEVEL
+        
             
         logging.basicConfig(format='%(levelname)s:%(message)s', level=level)
         
@@ -143,7 +162,7 @@ USAGE
         logging.debug(scripts)
 
         # create game object
-        runner = Set(scripts, decay = .99)
+        runner = Set(scripts, decay = .99, maximumGames = 0)
         
         print(runner.scoreBoard)
 
@@ -161,7 +180,7 @@ USAGE
 
 if __name__ == "__main__":
     if DEBUG:
-        sys.argv.append("-v")
+        sys.argv.append('-vv')
 #     if TESTRUN:
 #         import doctest
 #         doctest.testmod()

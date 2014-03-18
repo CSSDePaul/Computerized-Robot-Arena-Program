@@ -137,7 +137,7 @@ class Game:
         # rounds continue until one of the end game conditions are met.
         while not self.gameOver:
             
-            logging.debug('\nGAME ROUND #{}'.format(self.numRounds))
+#             logging.debug('\nGAME ROUND #{}'.format(self.numRounds))
             
             # ============================
             # TEST FOR END GAME CONDITIONS
@@ -145,16 +145,16 @@ class Game:
             
             if self.maximumRounds > 0 and self.numRounds >= self.maximumRounds:             # round limit reached
                 self.gameOver = True
-                logging.debug('Round Limit Reached')
+#                 logging.debug('Round Limit Reached')
             elif self.numRounds >= self.minimumRounds and not utility.decay(self.decay):    # decay termination
                 self.gameOver = True
-                logging.debug('Decay Limit Reached')
+#                 logging.debug('Decay Limit Reached')
             elif len(self.board.getRobots()) <= 1:                                          # one or fewer robots left
                 self.gameOver = True
                 logging.debug('{} robot(s) left'.format(len(self.board.getRobots())))
             elif self.graphics is not None and self.graphics.exitFlag:                      # graphics window closed
                 self.gameOver = True
-                logging.debug('Graphics Window Closed')
+#                 logging.debug('Graphics Window Closed')
                 
             # ===============
             # PERFORM UPDATES

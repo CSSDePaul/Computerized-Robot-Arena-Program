@@ -78,7 +78,6 @@ class Robot(Actor):
 # 			logging.info("%s is going to %s" % (self.name, str(action)))
 			
 			action = Robot.ACTIONS[action]
-			
 			action(self, board)
 		else:
 			pass
@@ -117,7 +116,7 @@ class Robot(Actor):
 		@param board: A reference to the board object. This is used for checking bounds and collisions.
 		'''
 		
-		logging.debug("%s is moving forward" % (self.name))
+# 		logging.debug("%s is moving forward" % (self.name))
 
 		# get the coordinates in front of the robot
 		coords = forwardCoords(self.xPosition, self.yPosition, self.rotation, board)
@@ -125,8 +124,7 @@ class Robot(Actor):
 		# if out of bounds, do nothing
 		if coords is None:
 			
-			# debugging output
-			logging.debug('{} is off the board'.format(self.name))
+# 			logging.debug('{} is off the board'.format(self.name)) # debugging output
 			
 			# exit
 			return
@@ -142,19 +140,19 @@ class Robot(Actor):
 		if len(collidingActors) > 0:
 			
 			# debugging output
-			logging.debug('actors in front of {}: {}'.format(self.name, str(collidingActors)))
+# 			logging.debug('actors in front of {}: {}'.format(self.name, str(collidingActors)))
 			
 			# iterate over actors in space
 			for actor in collidingActors:
 				
 				# debugging output
-				logging.debug(self.name + " to collide with actor " + actor)
+# 				logging.debug(self.name + " to collide with actor " + actor)
 				
 				# if actor is robot, damage robot and destroy self
 				if actor in board.getRobots():
 					
 					# debugging output
-					logging.debug(self.name + " colliding with robot " + actor)
+# 					logging.debug(self.name + " colliding with robot " + actor)
 					
 					# run collision logic
 					board.collision(self.name, actor)

@@ -86,6 +86,10 @@ class Set:
         self.minimumGames = minimumGames
         self.decay = decay
         
+        logging.debug(self.maximumGames)
+        logging.debug(self.minimumGames)
+        logging.debug(self.decay)
+        
         # initialize score board
         self.scoreBoard = {}
         for script_name in scripts:
@@ -123,7 +127,7 @@ class Set:
             # TEST FOR END SET CONDITIONS
             # ===========================
             
-            if numGames >= self.maximumGames:
+            if self.maximumGames > 0 and numGames >= self.maximumGames:
                 setOver = True
                 logging.info('Game Limit Set Termination')
                 continue
