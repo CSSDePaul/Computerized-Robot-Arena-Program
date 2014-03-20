@@ -1,0 +1,116 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module robot</title>
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>robot</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/home/jordan/GitProjects/Computerized-Robot-Arena-Program/robot.py">/home/jordan/GitProjects/Computerized-Robot-Arena-Program/robot.py</a></font></td></tr></table>
+    <p></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="actor.html#Actor">actor.Actor</a>
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="robot.html#Robot">Robot</a>
+</font></dt></dl>
+</dd>
+</dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="Robot">class <strong>Robot</strong></a>(<a href="actor.html#Actor">actor.Actor</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>The&nbsp;parent&nbsp;class&nbsp;for&nbsp;all&nbsp;robot&nbsp;scripts.<br>
+&nbsp;<br>
+Each&nbsp;robot&nbsp;is&nbsp;given&nbsp;an&nbsp;x&nbsp;and&nbsp;y&nbsp;coordinate,<br>
+a&nbsp;value&nbsp;for&nbsp;theta&nbsp;representing&nbsp;rotation,<br>
+and&nbsp;a&nbsp;string&nbsp;with&nbsp;a&nbsp;unique&nbsp;identifying&nbsp;name&nbsp;for&nbsp;the&nbsp;robot.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="Robot-__init__"><strong>__init__</strong></a>(self, x, y, theta, script, name<font color="#909090">=None</font>, health<font color="#909090">=1</font>)</dt><dd><tt>Constructor&nbsp;method.<br>
+&nbsp;<br>
+@param&nbsp;x:&nbsp;The&nbsp;starting&nbsp;x&nbsp;coordinate&nbsp;of&nbsp;the&nbsp;robot.<br>
+&nbsp;<br>
+@param&nbsp;y:&nbsp;The&nbsp;starting&nbsp;y&nbsp;coordinate&nbsp;of&nbsp;the&nbsp;robot.<br>
+&nbsp;<br>
+@param&nbsp;theta:&nbsp;The&nbsp;starting&nbsp;theta&nbsp;of&nbsp;the&nbsp;robot.<br>
+&nbsp;<br>
+@param&nbsp;script:&nbsp;A&nbsp;function&nbsp;pointer&nbsp;to&nbsp;the&nbsp;script&nbsp;defining&nbsp;the&nbsp;behavior&nbsp;of&nbsp;the&nbsp;robot.<br>
+&nbsp;<br>
+@param&nbsp;name:&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;robot.&nbsp;If&nbsp;no&nbsp;name&nbsp;is&nbsp;provided&nbsp;a&nbsp;unique,&nbsp;random&nbsp;name&nbsp;will&nbsp;be&nbsp;provided.<br>
+&nbsp;<br>
+@param&nbsp;health:&nbsp;The&nbsp;starting&nbsp;health&nbsp;of&nbsp;the&nbsp;robot.&nbsp;Defaults&nbsp;to&nbsp;<a href="#Robot">Robot</a>::DEFAULT_HEALTH</tt></dd></dl>
+
+<dl><dt><a name="Robot-moveForward"><strong>moveForward</strong></a>(self, board)</dt><dd><tt>Moves&nbsp;the&nbsp;robot&nbsp;forward&nbsp;one&nbsp;space&nbsp;in&nbsp;the&nbsp;current&nbsp;direction.<br>
+If&nbsp;it&nbsp;runs&nbsp;into&nbsp;a&nbsp;wall,&nbsp;it&nbsp;will&nbsp;simply&nbsp;not&nbsp;move.<br>
+&nbsp;<br>
+@param&nbsp;board:&nbsp;A&nbsp;reference&nbsp;to&nbsp;the&nbsp;board&nbsp;object.&nbsp;This&nbsp;is&nbsp;used&nbsp;for&nbsp;checking&nbsp;bounds&nbsp;and&nbsp;collisions.</tt></dd></dl>
+
+<dl><dt><a name="Robot-shootProjectile"><strong>shootProjectile</strong></a>(self, board)</dt><dd><tt>Creates&nbsp;a&nbsp;projectile&nbsp;in&nbsp;front&nbsp;and&nbsp;adds&nbsp;it&nbsp;to&nbsp;the&nbsp;board<br>
+&nbsp;<br>
+@param&nbsp;board:&nbsp;A&nbsp;reference&nbsp;to&nbsp;the&nbsp;board&nbsp;object.&nbsp;This&nbsp;is&nbsp;used&nbsp;for&nbsp;checking&nbsp;bounds&nbsp;and&nbsp;collisions.</tt></dd></dl>
+
+<dl><dt><a name="Robot-takeAction"><strong>takeAction</strong></a>(self, board)</dt><dd><tt>Call&nbsp;the&nbsp;behavior&nbsp;script&nbsp;and&nbsp;then&nbsp;take&nbsp;the&nbsp;chosen&nbsp;action.</tt></dd></dl>
+
+<dl><dt><a name="Robot-turnLeft"><strong>turnLeft</strong></a>(self, board)</dt><dd><tt>Rotate&nbsp;the&nbsp;robot&nbsp;90&nbsp;degrees&nbsp;to&nbsp;the&nbsp;left.</tt></dd></dl>
+
+<dl><dt><a name="Robot-turnRight"><strong>turnRight</strong></a>(self, board)</dt><dd><tt>Rotate&nbsp;the&nbsp;robot&nbsp;90&nbsp;degrees&nbsp;to&nbsp;the&nbsp;right</tt></dd></dl>
+
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>ACTIONS</strong> = {'MOVE_FORWARD': &lt;function moveForward&gt;, 'SHOOT_PROJECTILE': &lt;function shootProjectile&gt;, 'TURN_LEFT': &lt;function turnLeft&gt;, 'TURN_RIGHT': &lt;function turnRight&gt;}</dl>
+
+<dl><dt><strong>DEFAULT_HEALTH</strong> = 1</dl>
+
+<dl><dt><strong>script</strong> = None</dl>
+
+<hr>
+Methods inherited from <a href="actor.html#Actor">actor.Actor</a>:<br>
+<dl><dt><a name="Robot-__str__"><strong>__str__</strong></a>(self)</dt><dd><tt>@return:&nbsp;The&nbsp;string&nbsp;representation&nbsp;of&nbsp;the&nbsp;<a href="actor.html#Actor">Actor</a>&nbsp;(called&nbsp;whenever&nbsp;object&nbsp;is&nbsp;converted&nbsp;to&nbsp;string)</tt></dd></dl>
+
+<dl><dt><a name="Robot-drawArgs"><strong>drawArgs</strong></a>(self)</dt><dd><tt>@return:&nbsp;a&nbsp;dictionary&nbsp;with&nbsp;information&nbsp;on&nbsp;the&nbsp;robot's&nbsp;current&nbsp;position.</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="actor.html#Actor">actor.Actor</a>:<br>
+<dl><dt><strong>health</strong> = 0</dl>
+
+<dl><dt><strong>image</strong> = None</dl>
+
+<dl><dt><strong>name</strong> = None</dl>
+
+<dl><dt><strong>rotation</strong> = 0</dl>
+
+<dl><dt><strong>xPosition</strong> = 0</dl>
+
+<dl><dt><strong>yPosition</strong> = 0</dl>
+
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-cos"><strong>cos</strong></a>(...)</dt><dd><tt><a href="#-cos">cos</a>(x)<br>
+&nbsp;<br>
+Return&nbsp;the&nbsp;cosine&nbsp;of&nbsp;x&nbsp;(measured&nbsp;in&nbsp;radians).</tt></dd></dl>
+ <dl><dt><a name="-radians"><strong>radians</strong></a>(...)</dt><dd><tt><a href="#-radians">radians</a>(x)<br>
+&nbsp;<br>
+Convert&nbsp;angle&nbsp;x&nbsp;from&nbsp;degrees&nbsp;to&nbsp;radians.</tt></dd></dl>
+ <dl><dt><a name="-sin"><strong>sin</strong></a>(...)</dt><dd><tt><a href="#-sin">sin</a>(x)<br>
+&nbsp;<br>
+Return&nbsp;the&nbsp;sine&nbsp;of&nbsp;x&nbsp;(measured&nbsp;in&nbsp;radians).</tt></dd></dl>
+</td></tr></table>
+</body></html>
