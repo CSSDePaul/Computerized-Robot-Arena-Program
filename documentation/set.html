@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module set</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>set</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/home/jordan/GitProjects/Computerized-Robot-Arena-Program/set.py">/home/jordan/GitProjects/Computerized-Robot-Arena-Program/set.py</a></font></td></tr></table>
+    <p><tt>Created&nbsp;on&nbsp;Mar&nbsp;16,&nbsp;2014<br>
+&nbsp;<br>
+@author:&nbsp;excaliburhissheath</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="logging.html">logging</a><br>
+</td><td width="25%" valign=top><a href="utility.html">utility</a><br>
+</td><td width="25%" valign=top></td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="builtins.html#object">builtins.object</a>
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="set.html#Set">Set</a>
+</font></dt></dl>
+</dd>
+</dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="Set">class <strong>Set</strong></a>(<a href="builtins.html#object">builtins.object</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>A&nbsp;runner&nbsp;class&nbsp;for&nbsp;running&nbsp;one&nbsp;full&nbsp;set.<br>
+&nbsp;<br>
+The&nbsp;<a href="#Set">Set</a>&nbsp;class&nbsp;is&nbsp;customizable&nbsp;in&nbsp;the&nbsp;following&nbsp;ways:<br>
+*&nbsp;maximumGames&nbsp;-&nbsp;The&nbsp;absolute&nbsp;maximum&nbsp;number&nbsp;of&nbsp;games&nbsp;to&nbsp;be&nbsp;played&nbsp;in&nbsp;the&nbsp;game&nbsp;before&nbsp;a&nbsp;tie&nbsp;is&nbsp;declared,&nbsp;defaults&nbsp;to&nbsp;250.&nbsp;A&nbsp;value&nbsp;of&nbsp;0&nbsp;means&nbsp;that&nbsp;there&nbsp;is&nbsp;no&nbsp;maximum&nbsp;number&nbsp;of&nbsp;games.<br>
+*&nbsp;minimumRounds&nbsp;-&nbsp;The&nbsp;minimum&nbsp;number&nbsp;of&nbsp;games&nbsp;to&nbsp;be&nbsp;run&nbsp;when&nbsp;doing&nbsp;decay&nbsp;ending,&nbsp;defaults&nbsp;to&nbsp;0.<br>
+*&nbsp;decay&nbsp;-&nbsp;The&nbsp;probability&nbsp;of&nbsp;any&nbsp;given&nbsp;game&nbsp;being&nbsp;run,&nbsp;defaults&nbsp;to&nbsp;1.<br>
+&nbsp;<br>
+@note:&nbsp;A&nbsp;decay&nbsp;of&nbsp;.02&nbsp;give&nbsp;an&nbsp;expected&nbsp;length&nbsp;of&nbsp;~50&nbsp;games.&nbsp;Decay&nbsp;calculations&nbsp;do&nbsp;not&nbsp;begin&nbsp;until&nbsp;after&nbsp;minimumRounds&nbsp;rounds&nbsp;have&nbsp;passed.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="Set-__init__"><strong>__init__</strong></a>(self, scripts, maximumGames<font color="#909090">=100</font>, decay<font color="#909090">=0.98</font>, minimumGames<font color="#909090">=25</font>, noBlock<font color="#909090">=False</font>, gameConfig<font color="#909090">=None</font>)</dt><dd><tt>Constructor&nbsp;for&nbsp;<a href="#Set">Set</a>&nbsp;class.<br>
+&nbsp;<br>
+@param&nbsp;scripts:&nbsp;A&nbsp;dict&nbsp;of&nbsp;robotBehavior&nbsp;objects&nbsp;keyed&nbsp;to&nbsp;the&nbsp;script's&nbsp;name.<br>
+@param&nbsp;maximumGames:&nbsp;The&nbsp;maximum&nbsp;number&nbsp;of&nbsp;games&nbsp;in&nbsp;the&nbsp;set.<br>
+@param&nbsp;decay:&nbsp;The&nbsp;decay&nbsp;rate&nbsp;of&nbsp;the&nbsp;set.<br>
+@param&nbsp;minimumGames:&nbsp;The&nbsp;minimum&nbsp;number&nbsp;of&nbsp;games&nbsp;in&nbsp;the&nbsp;set.<br>
+@param&nbsp;noBlock:&nbsp;If&nbsp;noBlock&nbsp;is&nbsp;set&nbsp;to&nbsp;false,&nbsp;the&nbsp;set&nbsp;will&nbsp;be&nbsp;run&nbsp;upon&nbsp;construction&nbsp;of&nbsp;the&nbsp;<a href="#Set">Set</a>&nbsp;<a href="builtins.html#object">object</a>,<br>
+and&nbsp;the&nbsp;results&nbsp;will&nbsp;be&nbsp;available&nbsp;immediately.&nbsp;As&nbsp;this&nbsp;has&nbsp;the&nbsp;potential&nbsp;to&nbsp;cause&nbsp;blocking,&nbsp;setting&nbsp;noBlock&nbsp;to&nbsp;True&nbsp;will<br>
+have&nbsp;the&nbsp;<a href="#Set">Set</a>&nbsp;<a href="builtins.html#object">object</a>&nbsp;wait&nbsp;until&nbsp;<a href="#Set-run">run</a>()&nbsp;is&nbsp;called&nbsp;explicitly&nbsp;to&nbsp;run&nbsp;the&nbsp;simulation.&nbsp;Defaults&nbsp;to&nbsp;False.<br>
+@param&nbsp;gameConfig:&nbsp;A&nbsp;dict&nbsp;holding&nbsp;the&nbsp;configuration&nbsp;values&nbsp;for&nbsp;the&nbsp;game&nbsp;runner.&nbsp;If&nbsp;not&nbsp;provided,&nbsp;default&nbsp;values&nbsp;will&nbsp;be&nbsp;used.</tt></dd></dl>
+
+<dl><dt><a name="Set-run"><strong>run</strong></a>(self)</dt><dd><tt>Runs&nbsp;the&nbsp;set&nbsp;and&nbsp;stores&nbsp;the&nbsp;results&nbsp;in&nbsp;<a href="#Set">Set</a>.scoreBoard<br>
+&nbsp;<br>
+@note:&nbsp;Unlike&nbsp;in&nbsp;the&nbsp;game&nbsp;runner,&nbsp;<a href="#Set-run">run</a>()&nbsp;in&nbsp;<a href="#Set">Set</a>&nbsp;does&nbsp;NOT&nbsp;reset&nbsp;scoring&nbsp;values,<br>
+so&nbsp;calling&nbsp;<a href="#Set-run">run</a>()&nbsp;twice&nbsp;would&nbsp;mean&nbsp;that&nbsp;the&nbsp;results&nbsp;of&nbsp;two&nbsp;sets&nbsp;will&nbsp;be&nbsp;represented&nbsp;within<br>
+<a href="#Set">Set</a>.scoreBoard.&nbsp;This&nbsp;is&nbsp;potentially&nbsp;useful&nbsp;in&nbsp;the&nbsp;case&nbsp;that&nbsp;running&nbsp;a&nbsp;single&nbsp;set&nbsp;is&nbsp;inconclusive.</tt></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>decay</strong> = 0</dl>
+
+<dl><dt><strong>gameRunner</strong> = None</dl>
+
+<dl><dt><strong>maximumGames</strong> = 0</dl>
+
+<dl><dt><strong>minimumGames</strong> = 0</dl>
+
+<dl><dt><strong>scoreBoard</strong> = None</dl>
+
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>DEFAULT_DECAY</strong> = 0.98<br>
+<strong>DEFAULT_MAXIMUM_GAMES</strong> = 100<br>
+<strong>DEFAULT_MINIMUM_GAMES</strong> = 25</td></tr></table>
+</body></html>

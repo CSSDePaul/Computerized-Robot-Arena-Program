@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module utility</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>utility</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/home/jordan/GitProjects/Computerized-Robot-Arena-Program/utility.py">/home/jordan/GitProjects/Computerized-Robot-Arena-Program/utility.py</a></font></td></tr></table>
+    <p><tt>Created&nbsp;on&nbsp;Mar&nbsp;12,&nbsp;2014<br>
+&nbsp;<br>
+@author:&nbsp;excaliburhissheath</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="random.html">random</a><br>
+</td><td width="25%" valign=top></td><td width="25%" valign=top></td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-cos"><strong>cos</strong></a>(...)</dt><dd><tt><a href="#-cos">cos</a>(x)<br>
+&nbsp;<br>
+Return&nbsp;the&nbsp;cosine&nbsp;of&nbsp;x&nbsp;(measured&nbsp;in&nbsp;radians).</tt></dd></dl>
+ <dl><dt><a name="-decay"><strong>decay</strong></a>(probability)</dt><dd><tt>Performs&nbsp;the&nbsp;decay&nbsp;function&nbsp;used&nbsp;in&nbsp;Games&nbsp;and&nbsp;Sets.<br>
+&nbsp;<br>
+Generates&nbsp;a&nbsp;random&nbsp;number&nbsp;on&nbsp;[0.0,&nbsp;1.0),&nbsp;and&nbsp;if&nbsp;that&nbsp;number<br>
+is&nbsp;less&nbsp;than&nbsp;probability,&nbsp;returns&nbsp;True,&nbsp;otherwise&nbsp;returns&nbsp;False.<br>
+&nbsp;<br>
+@param&nbsp;probability:&nbsp;The&nbsp;probability&nbsp;for&nbsp;the&nbsp;decay&nbsp;function,<br>
+i.e.,&nbsp;the&nbsp;probability&nbsp;that&nbsp;this&nbsp;function&nbsp;will&nbsp;return&nbsp;false.<br>
+&nbsp;<br>
+@return:&nbsp;False&nbsp;if&nbsp;the&nbsp;random&nbsp;value&nbsp;is&nbsp;less&nbsp;than&nbsp;probability,&nbsp;True&nbsp;otherwise.</tt></dd></dl>
+ <dl><dt><a name="-forwardCoords"><strong>forwardCoords</strong></a>(x, y, rotation, board<font color="#909090">=None</font>)</dt><dd><tt>Returns&nbsp;the&nbsp;coordinates&nbsp;of&nbsp;one&nbsp;forward&nbsp;move&nbsp;as&nbsp;a&nbsp;tuple&nbsp;in&nbsp;the&nbsp;form&nbsp;of&nbsp;(x,y,rotation).<br>
+&nbsp;<br>
+@param&nbsp;x:&nbsp;The&nbsp;current&nbsp;x&nbsp;coordinate.<br>
+@param&nbsp;y:&nbsp;The&nbsp;current&nbsp;y&nbsp;coordinate.<br>
+@param&nbsp;rotation:&nbsp;The&nbsp;current&nbsp;rotation.<br>
+@param&nbsp;board:&nbsp;The&nbsp;board&nbsp;being&nbsp;considered.<br>
+This&nbsp;is&nbsp;optional,&nbsp;if&nbsp;it&nbsp;is&nbsp;not&nbsp;provided&nbsp;the&nbsp;new&nbsp;position&nbsp;will&nbsp;not&nbsp;be&nbsp;checked&nbsp;to&nbsp;see&nbsp;if&nbsp;they&nbsp;are&nbsp;out&nbsp;of&nbsp;bounds&nbsp;(even&nbsp;if&nbsp;they&nbsp;are&nbsp;negative!).<br>
+&nbsp;<br>
+@return:&nbsp;Returns&nbsp;a&nbsp;tuple&nbsp;with&nbsp;the&nbsp;new&nbsp;coordinates&nbsp;as&nbsp;integers.&nbsp;If&nbsp;a&nbsp;value&nbsp;is&nbsp;provided&nbsp;for&nbsp;board,&nbsp;the&nbsp;new&nbsp;position&nbsp;will&nbsp;be&nbsp;checked&nbsp;against&nbsp;the&nbsp;bounds&nbsp;of&nbsp;the&nbsp;board,<br>
+and&nbsp;if&nbsp;it&nbsp;is&nbsp;out&nbsp;of&nbsp;bound&nbsp;the&nbsp;function&nbsp;will&nbsp;return&nbsp;None.</tt></dd></dl>
+ <dl><dt><a name="-manhattanDistance"><strong>manhattanDistance</strong></a>(loc1, loc2)</dt><dd><tt>Returns&nbsp;the&nbsp;manhattan&nbsp;distance&nbsp;between&nbsp;the&nbsp;two&nbsp;locations.<br>
+&nbsp;<br>
+Either&nbsp;location&nbsp;may&nbsp;be&nbsp;either&nbsp;an&nbsp;Actor&nbsp;object&nbsp;or&nbsp;a&nbsp;tuple&nbsp;in&nbsp;the&nbsp;format&nbsp;(x,y...).<br>
+&nbsp;<br>
+@param&nbsp;loc1:&nbsp;The&nbsp;first&nbsp;location.&nbsp;It&nbsp;may&nbsp;be&nbsp;either&nbsp;an&nbsp;Actor&nbsp;object&nbsp;or&nbsp;a&nbsp;tuple&nbsp;in&nbsp;the&nbsp;format&nbsp;(x,y...).<br>
+@param&nbsp;loc2:&nbsp;The&nbsp;second&nbsp;location.&nbsp;It&nbsp;may&nbsp;be&nbsp;either&nbsp;an&nbsp;Actor&nbsp;object&nbsp;or&nbsp;a&nbsp;tuple&nbsp;in&nbsp;the&nbsp;format&nbsp;(x,y...).<br>
+&nbsp;<br>
+@return:&nbsp;The&nbsp;manhattan&nbsp;distance&nbsp;between&nbsp;the&nbsp;two&nbsp;locations&nbsp;as&nbsp;an&nbsp;integer&nbsp;value.</tt></dd></dl>
+ <dl><dt><a name="-radians"><strong>radians</strong></a>(...)</dt><dd><tt><a href="#-radians">radians</a>(x)<br>
+&nbsp;<br>
+Convert&nbsp;angle&nbsp;x&nbsp;from&nbsp;degrees&nbsp;to&nbsp;radians.</tt></dd></dl>
+ <dl><dt><a name="-sin"><strong>sin</strong></a>(...)</dt><dd><tt><a href="#-sin">sin</a>(x)<br>
+&nbsp;<br>
+Return&nbsp;the&nbsp;sine&nbsp;of&nbsp;x&nbsp;(measured&nbsp;in&nbsp;radians).</tt></dd></dl>
+</td></tr></table>
+</body></html>
