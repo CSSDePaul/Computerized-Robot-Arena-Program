@@ -1,4 +1,6 @@
 /.project
 /.pydevproject
+*/__pycache__/
 *.pyc
 graphics_example.py
+*.sublime-workspace
